@@ -9,9 +9,6 @@ import {
   InputGroup,
   Input,
   Button,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
 } from "reactstrap";
 
 import { Link } from "react-router-dom";
@@ -25,7 +22,6 @@ import ProfileMenu from "../CommonForBoth/TopbarDropdown/ProfileMenu";
 import { withTranslation } from "react-i18next";
 
 //Import Megamenu
-import MegaMenu from "./MegaMenu";
 
 // Redux Store
 import { toggleRightSidebar } from "../../store/actions";
@@ -37,12 +33,6 @@ import logosmlight from "../../assets/images/logo-sm-light.png";
 import logolight from "../../assets/images/logo-light.png";
 
 //Import Social Profile Images
-import github from "../../assets/images/brands/github.png";
-import bitbucket from "../../assets/images/brands/bitbucket.png";
-import dribbble from "../../assets/images/brands/dribbble.png";
-import dropbox from "../../assets/images/brands/dropbox.png";
-import mail_chimp from "../../assets/images/brands/mail_chimp.png";
-import slack from "../../assets/images/brands/slack.png";
 
 class Header extends Component {
   constructor(props) {
@@ -144,7 +134,7 @@ class Header extends Component {
                 </div>
               </Form>
 
-              <MegaMenu />
+              {/* <MegaMenu /> */}
             </div>
 
             <div className="d-flex">
@@ -188,7 +178,7 @@ class Header extends Component {
 
               <LanguageDropdown />
 
-              <Dropdown
+              {/* <Dropdown
                 isOpen={this.state.isSocialPf}
                 toggle={() =>
                   this.setState({ isSocialPf: !this.state.isSocialPf })
@@ -246,7 +236,7 @@ class Header extends Component {
                     </Row>
                   </div>
                 </DropdownMenu>
-              </Dropdown>
+              </Dropdown> */}
 
               <div className="dropdown d-none d-lg-inline-block ms-1">
                 <Button

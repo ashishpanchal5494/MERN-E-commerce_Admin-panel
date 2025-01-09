@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Button,
   Card,
@@ -20,8 +20,76 @@ import {
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import * as yup from "yup";
+import {
+  createColor,
+  getAColor,
+  resetState,
+  updateAColor,
+} from "../../features/color/ColorSlice";
+import { useFormik } from "formik";
+
+let schema = yup.object().shape({
+  title: yup.string().required("Color is Required"),
+});
 
 const EcommerceAddColor = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const getColorId = location.pathname.split("/")[2];
+  console.log(getColorId);
+  const newColor = useSelector((state) => state.color);
+  const {
+    isSuccess,
+    isError,
+    isLoading,
+    createdColor,
+    updatedColor,
+    colorName,
+  } = newColor;
+  useEffect(() => {
+    if (getColorId !== undefined) {
+      dispatch(getAColor(getColorId));
+    } else {
+      dispatch(resetState());
+    }
+  }, [getColorId]);
+  useEffect(() => {
+    if (isSuccess && createdColor) {
+      toast.success("Color Added Successfullly!");
+    }
+    if (isSuccess && updatedColor) {
+      toast.success("Color Updated Successfullly!");
+      navigate("/ecommerce-color-list");
+    }
+    if (isError) {
+      toast.error("Something Went Wrong!");
+    }
+  }, [isSuccess, isError, isLoading, createdColor]);
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      title: colorName || "",
+    },
+    validationSchema: schema,
+    onSubmit: (values) => {
+      if (getColorId !== undefined) {
+        const data = { id: getColorId, colorData: values };
+        dispatch(updateAColor(data));
+        dispatch(resetState());
+      } else {
+        dispatch(createColor(values));
+        formik.resetForm();
+        setTimeout(() => {
+          dispatch(resetState());
+        }, 300);
+      }
+    },
+  });
+
   const breadcrumbItems = [
     { title: "Ecommerce", link: "#" },
     { title: "Add Color", link: "#" },
@@ -32,7 +100,10 @@ const EcommerceAddColor = () => {
       <div className="page-content">
         <Container fluid>
           {/* Render Breadcrumb */}
-          <Breadcrumbs title="Add Color" breadcrumbItems={breadcrumbItems} />
+          <Breadcrumbs
+            title={getColorId !== undefined ? "Edit Color" : "Add Color"}
+            breadcrumbItems={breadcrumbItems}
+          />
 
           <Row>
             <Col lg={12}>
@@ -58,14 +129,23 @@ const EcommerceAddColor = () => {
                               name="productname"
                               type="color"
                               className="form-control"
+                              onChange={formik.handleChange("title")}
+                              onBlur={formik.handleBlur("title")}
+                              value={formik.values.title}
                             />
+                          </div>
+                          <div className="error">
+                            {formik.touched.title && formik.errors.title}
                           </div>
                         </form>
                       </TabPane>
                     </TabContent>
                     <ul className="pager wizard twitter-bs-wizard-pager-link">
                       <li>
-                        <Link to="#">Add</Link>
+                        <Link onClick={formik.handleSubmit} to="#">
+                          {" "}
+                          {getColorId !== undefined ? "Edit" : "Add"} Color
+                        </Link>
                       </li>
                     </ul>
                   </div>

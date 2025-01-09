@@ -111,21 +111,21 @@ class SidebarContent extends Component {
               </Link>
             </li>
 
-            <li>
+            {/* <li>
               <Link to="/calendar" className=" waves-effect">
                 <i className="ri-calendar-2-line"></i>
                 <span className="ms-1">{this.props.t("Calendar")}</span>
               </Link>
-            </li>
+            </li> */}
 
-            <li>
+            {/* <li>
               <Link to="/chat" className=" waves-effect">
                 <i className="ri-chat-1-line"></i>
                 <span className="ms-1">{this.props.t("Chat")}</span>
               </Link>
-            </li>
+            </li> */}
 
-            <li className="menu-title">{this.props.t("E-commerce")}</li>
+            {/* <li className="menu-title">{this.props.t("E-commerce")}</li> */}
 
             <li>
               <Link to="/#" className="has-arrow waves-effect">
@@ -182,17 +182,6 @@ class SidebarContent extends Component {
                     {this.props.t("Customers")}
                   </Link>
                 </li>
-                <li>
-                  <Link to="/ecommerce-cart">{this.props.t("Cart")}</Link>
-                </li>
-                <li>
-                  <Link to="/ecommerce-checkout">
-                    {this.props.t("Checkout")}
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/ecommerce-shops">{this.props.t("Shops")}</Link>
-                </li>
               </ul>
             </li>
 
@@ -245,20 +234,6 @@ class SidebarContent extends Component {
             </li>
 
             <li>
-              <Link to="/#" className="has-arrow waves-effect">
-                <i className="ri-mail-send-line"></i>
-                <span className="ms-1">{this.props.t("Email")}</span>
-              </Link>
-              <ul className="sub-menu">
-                <li>
-                  <Link to="/email-inbox">{this.props.t("Inbox")}</Link>
-                </li>
-                <li>
-                  <Link to="/email-read">{this.props.t("Read Email")}</Link>
-                </li>
-              </ul>
-            </li>
-            <li>
               <Link to="/ecommerce-enquiry" className=" waves-effect">
                 <FaClipboardList className="fs-5" />
                 <span className="ms-2">{this.props.t("Enquiry")}</span>
@@ -289,7 +264,7 @@ class SidebarContent extends Component {
                 </li>
               </ul>
             </li>
-
+            {/* 
             <li>
               <Link to="/#" className="has-arrow waves-effect">
                 <i className="ri-profile-line"></i>
@@ -321,7 +296,7 @@ class SidebarContent extends Component {
                   <Link to="/500">{this.props.t("Error 500")}</Link>
                 </li>
               </ul>
-            </li>
+            </li> */}
 
             {/* <li className="menu-title">{this.props.t('Components')}</li> */}
             {/* 

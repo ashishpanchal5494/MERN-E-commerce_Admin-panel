@@ -13,7 +13,7 @@ import {
 // Other Layout related Component
 import Navbar from "./Navbar";
 import Header from "./Header";
-import Footer from "./Footer";
+// import Footer from "./Footer";
 import Rightbar from "../CommonForBoth/Rightbar";
 import withRouter from "../Common/withRouter";
 
@@ -21,14 +21,14 @@ class Layout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isMenuOpened: false
+      isMenuOpened: false,
     };
     this.toggleRightSidebar = this.toggleRightSidebar.bind(this);
   }
 
   /**
-  * Open/close right sidebar
-  */
+   * Open/close right sidebar
+   */
   toggleRightSidebar() {
     this.props.toggleRightSidebar();
   }
@@ -36,36 +36,32 @@ class Layout extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
       if (this.props.isPreloader === true) {
-        document.getElementById('preloader').style.display = "block";
-        document.getElementById('status').style.display = "block";
+        document.getElementById("preloader").style.display = "block";
+        document.getElementById("status").style.display = "block";
 
         setTimeout(function () {
-
-          document.getElementById('preloader').style.display = "none";
-          document.getElementById('status').style.display = "none";
-
+          document.getElementById("preloader").style.display = "none";
+          document.getElementById("status").style.display = "none";
         }, 2500);
-      }
-      else {
-        document.getElementById('preloader').style.display = "none";
-        document.getElementById('status').style.display = "none";
+      } else {
+        document.getElementById("preloader").style.display = "none";
+        document.getElementById("status").style.display = "none";
       }
     }
   }
 
   componentDidMount() {
-
     // Scrollto 0,0
     window.scrollTo(0, 0);
 
     const title = this.props.router.location.pathname;
     let currentage = title.charAt(1).toUpperCase() + title.slice(2);
-    currentage = currentage.replaceAll("-" , " ");
+    currentage = currentage.replaceAll("-", " ");
 
     document.title =
       currentage + " | Nazox - Responsive Bootstrap 5 Admin Dashboard";
-      
-    this.props.changeLayout('horizontal');
+
+    this.props.changeLayout("horizontal");
     if (this.props.topbarTheme) {
       this.props.changeTopbarTheme(this.props.topbarTheme);
     }
@@ -83,13 +79,12 @@ class Layout extends Component {
   /**
    * Opens the menu - mobile
    */
-  openMenu = e => {
+  openMenu = (e) => {
     this.setState({ isMenuOpened: !this.state.isMenuOpened });
   };
   render() {
     return (
       <React.Fragment>
-
         <div id="preloader">
           <div id="status">
             <div className="spinner">
@@ -99,7 +94,8 @@ class Layout extends Component {
         </div>
 
         <div id="layout-wrapper">
-          <Header theme={this.props.topbarTheme}
+          <Header
+            theme={this.props.topbarTheme}
             isMenuOpened={this.state.isMenuOpened}
             toggleRightSidebar={this.toggleRightSidebar}
             openLeftMenuCallBack={this.openMenu}
@@ -107,7 +103,7 @@ class Layout extends Component {
           <Navbar menuOpen={this.state.isMenuOpened} />
           <div className="main-content">
             {this.props.children}
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </div>
         <Rightbar />
@@ -115,11 +111,15 @@ class Layout extends Component {
     );
   }
 }
-const mapStatetoProps = state => {
+const mapStatetoProps = (state) => {
   return {
-    ...state.Layout
+    ...state.Layout,
   };
 };
 export default connect(mapStatetoProps, {
-  changeTopbarTheme,changeLayoutTheme, toggleRightSidebar, changeLayout, changeLayoutWidth
+  changeTopbarTheme,
+  changeLayoutTheme,
+  toggleRightSidebar,
+  changeLayout,
+  changeLayoutWidth,
 })(withRouter(Layout));

@@ -1,13 +1,92 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import TableContainer from "../../components/Common/TableContainer";
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import { Card, CardBody, Container } from "reactstrap";
-import { orders } from "../../common/data/ecommerce";
+
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteAEnquiry,
+  getEnquiries,
+  resetState,
+  updateAEnquiry,
+} from "../../features/enquiry/EnquirySlice";
+import CustomModal from "../../components/CustomModel";
 
 const EcommerceEnquiry = () => {
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const [enqId, setenqId] = useState("");
+  const showModal = (e) => {
+    setOpen(true);
+    setenqId(e);
+  };
+
+  const hideModal = () => {
+    setOpen(false);
+  };
+  useEffect(() => {
+    dispatch(resetState());
+    dispatch(getEnquiries());
+  }, [dispatch]);
+  const enqState = useSelector((state) => state.enquiry.enquiries);
+  const data1 = [];
+  for (let i = 0; i < enqState.length; i++) {
+    data1.push({
+      key: i + 1,
+      name: enqState[i].name,
+      email: enqState[i].email,
+      mobile: enqState[i].mobile,
+      status: (
+        <>
+          <select
+            name=""
+            defaultValue={enqState[i].status ? enqState[i].status : "Submitted"}
+            className="form-control form-select"
+            id=""
+            onChange={(e) => setEnquiryStatus(e.target.value, enqState[i]._id)}
+          >
+            <option value="Submitted">Submitted</option>
+            <option value="Contacted">Contacted</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </>
+      ),
+
+      action: (
+        <>
+          <Link
+            to={`/admin/enquiries/${enqState[i]._id}`}
+            className="me-3 text-primary"
+          >
+            <i className="mdi mdi-pencil font-size-18"></i>
+          </Link>
+          <button
+            className="ms-3 fs-3 text-danger bg-transparent border-0"
+            onClick={() => showModal(enqState[i]._id)}
+          >
+            <i className="mdi mdi-trash-can font-size-18"></i>
+          </button>
+        </>
+      ),
+    });
+  }
+  const setEnquiryStatus = (e, i) => {
+    console.log(e, i);
+    const data = { id: i, enqData: e };
+    dispatch(updateAEnquiry(data));
+  };
+  const deleteEnq = (e) => {
+    dispatch(deleteAEnquiry(e));
+    setOpen(false);
+    setTimeout(() => {
+      dispatch(getEnquiries());
+    }, 100);
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -37,18 +116,7 @@ const EcommerceEnquiry = () => {
 
       {
         Header: "Action",
-        accessor: (cellProps) => {
-          return (
-            <React.Fragment>
-              <Link to="#" className="me-3 text-primary">
-                <i className="mdi mdi-pencil font-size-18"></i>
-              </Link>
-              <Link to="#" className="text-danger">
-                <i className="mdi mdi-trash-can font-size-18"></i>
-              </Link>
-            </React.Fragment>
-          );
-        },
+        accessor: "action",
         disableFilters: true,
         filterable: false,
       },
@@ -65,12 +133,12 @@ const EcommerceEnquiry = () => {
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
-          <Breadcrumbs title="Coupon List" breadcrumbItems={breadcrumbItems} />
+          <Breadcrumbs title="Enquiry List" breadcrumbItems={breadcrumbItems} />
           <Card>
             <CardBody>
               <TableContainer
                 columns={columns || []}
-                data={orders || []}
+                data={data1 || []}
                 isPagination={false}
                 // isGlobalFilter={false}
                 iscustomPageSize={false}
@@ -82,6 +150,14 @@ const EcommerceEnquiry = () => {
               />
             </CardBody>
           </Card>
+          <CustomModal
+            hideModal={hideModal}
+            open={open}
+            performAction={() => {
+              deleteEnq(enqId);
+            }}
+            title="Are you sure you want to delete this enquiry?"
+          />
         </Container>
       </div>
     </React.Fragment>

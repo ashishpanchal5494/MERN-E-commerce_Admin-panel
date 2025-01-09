@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Button,
   Card,
@@ -18,19 +18,118 @@ import {
   Form,
 } from "reactstrap";
 import Select from "react-select";
+import { toast } from "react-toastify";
+
+import * as yup from "yup";
 import Dropzone from "react-dropzone";
 import classnames from "classnames";
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createBlogs,
+  getABlog,
+  resetState,
+  updateABlog,
+} from "../../features/blog/BlogSlice";
+import { getCategories } from "../../features/blogCategory/BlogCategorySlice";
+import { useFormik } from "formik";
+import { delImg, uploadImg } from "../../features/upload/UploadSlice";
+
+let schema = yup.object().shape({
+  title: yup.string().required("Title is Required"),
+  description: yup.string().required("Description is Required"),
+  category: yup.string().required("Category is Required"),
+});
 
 const EcommerceAddBlog = () => {
-  const [selectedFiles, setSelectedFiles] = useState([]);
   const [activeTab, setActiveTab] = useState(1);
   const breadcrumbItems = [
     { title: "Ecommerce", link: "#" },
     { title: "Add Blog", link: "#" },
   ];
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const getBlogId = location.pathname.split("/")[2];
+  const imgState = useSelector((state) => state.upload.images);
+  const bCatState = useSelector((state) => state.blogCategory.bCategories);
+  const blogState = useSelector((state) => state.blog);
+  const {
+    isSuccess,
+    isError,
+    isLoading,
+    createdBlog,
+    blogName,
+    blogDesc,
+    blogCategory,
+    blogImages,
+    updatedBlog,
+  } = blogState;
+  useEffect(() => {
+    if (getBlogId !== undefined) {
+      dispatch(getABlog(getBlogId));
+      img.push(blogImages);
+    } else {
+      dispatch(resetState());
+    }
+  }, [getBlogId, dispatch]);
+
+  useEffect(() => {
+    dispatch(resetState());
+    dispatch(getCategories());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isSuccess && createdBlog) {
+      toast.success("Blog Added Successfullly!");
+    }
+    if (isSuccess && updatedBlog) {
+      toast.success("Blog Updated Successfullly!");
+      navigate("/ecommerce-blog-list");
+    }
+    if (isError) {
+      toast.error("Something Went Wrong!");
+    }
+  }, [isSuccess, isError, isLoading, createdBlog, updatedBlog]);
+
+  const img = [];
+  imgState.forEach((i) => {
+    img.push({
+      public_id: i.public_id,
+      url: i.url,
+    });
+  });
+  console.log(img);
+  useEffect(() => {
+    formik.values.images = img;
+  }, [blogImages]);
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      title: blogName || "",
+      description: blogDesc || "",
+      category: blogCategory || "",
+      images: "",
+    },
+    validationSchema: schema,
+    onSubmit: (values) => {
+      if (getBlogId !== undefined) {
+        const data = { id: getBlogId, blogData: values };
+        dispatch(updateABlog(data));
+        dispatch(resetState());
+      } else {
+        dispatch(createBlogs(values));
+        formik.resetForm();
+        setTimeout(() => {
+          dispatch(resetState());
+        }, 300);
+      }
+    },
+  });
 
   const toggleTab = (tab) => {
     if (activeTab !== tab) {
@@ -38,41 +137,15 @@ const EcommerceAddBlog = () => {
     }
   };
 
-  const handleAcceptedFiles = (files) => {
-    const updatedFiles = files.map((file) =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        htmlFormattedSize: htmlFormatBytes(file.size),
-      })
-    );
-
-    setSelectedFiles(updatedFiles);
-  };
-
-  const htmlFormatBytes = (bytes, decimals = 2) => {
-    if (bytes === 0) return "0 Bytes";
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
-  };
-
-  const options = [
-    { value: "AK", label: "Alaska" },
-    { value: "HI", label: "Hawaii" },
-    { value: "CA", label: "California" },
-    { value: "NV", label: "Nevada" },
-    { value: "OR", label: "Oregon" },
-    { value: "WA", label: "Washington" },
-  ];
-
   return (
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
           {/* Render Breadcrumb */}
-          <Breadcrumbs title="Add Blog" breadcrumbItems={breadcrumbItems} />
+          <Breadcrumbs
+            title={getBlogId !== undefined ? "Edit Blog" : "Add Blog"}
+            breadcrumbItems={breadcrumbItems}
+          />
 
           <Row>
             <Col lg={12}>
@@ -129,7 +202,13 @@ const EcommerceAddBlog = () => {
                               name="productname"
                               type="text"
                               className="form-control"
+                              onChange={formik.handleChange("title")}
+                              onBlur={formik.handleBlur("title")}
+                              value={formik.values.title}
                             />
+                            <div className="error">
+                              {formik.touched.title && formik.errors.title}
+                            </div>
                           </div>
                           <div className="row">
                             <div className="mb-3">
@@ -139,12 +218,25 @@ const EcommerceAddBlog = () => {
                               >
                                 Blog Category
                               </Label>
-                              <select className="form-control select2">
-                                <option>Select</option>
-                                <option value="EL">Electronic</option>
-                                <option value="FA">Fashion</option>
-                                <option value="FI">Fitness</option>
+                              <select
+                                onChange={formik.handleChange("category")}
+                                onBlur={formik.handleBlur("category")}
+                                value={formik.values.category}
+                                className="form-control select2"
+                              >
+                                <option value="">Select Blog Category</option>
+                                {bCatState.map((i, j) => {
+                                  return (
+                                    <option key={j} value={i.title}>
+                                      {i.title}
+                                    </option>
+                                  );
+                                })}
                               </select>
+                              <div className="error">
+                                {formik.touched.category &&
+                                  formik.errors.category}
+                              </div>
                             </div>
                           </div>
 
@@ -156,7 +248,13 @@ const EcommerceAddBlog = () => {
                               className="form-control"
                               id="productdesc"
                               rows="5"
+                              onChange={formik.handleChange("description")}
+                              value={formik.values.description}
                             ></textarea>
+                            <div className="error">
+                              {formik.touched.description &&
+                                formik.errors.description}
+                            </div>
                           </div>
                         </form>
                       </TabPane>
@@ -166,8 +264,12 @@ const EcommerceAddBlog = () => {
                         <Form className="dropzone">
                           <Dropzone
                             onDrop={(acceptedFiles) =>
-                              handleAcceptedFiles(acceptedFiles)
+                              dispatch(uploadImg(acceptedFiles))
                             }
+                            accept={{
+                              "image/jpeg": [".jpeg", ".jpg"],
+                              "image/png": [".png"],
+                            }}
                           >
                             {({ getRootProps, getInputProps }) => (
                               <div>
@@ -188,20 +290,28 @@ const EcommerceAddBlog = () => {
                             className="dropzone-previews mt-3"
                             id="file-previews"
                           >
-                            {selectedFiles.map((f, i) => (
+                            {imgState?.map((f, i) => (
                               <Card
                                 className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
-                                key={i + "-file"}
+                                key={i}
                               >
                                 <div className="p-2">
                                   <Row className="align-items-center">
                                     <Col className="col-auto">
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          dispatch(delImg(f.public_id))
+                                        }
+                                        className="btn-close position-absolute"
+                                        style={{ top: "10px", right: "10px" }}
+                                      ></button>
                                       <img
                                         data-dz-thumbnail=""
                                         height="80"
                                         className="avatar-sm rounded bg-light"
-                                        alt={f.name}
-                                        src={f.preview}
+                                        alt=""
+                                        src={f.preview ? f.preview : f.url} // Ensure preview or actual URL
                                       />
                                     </Col>
                                     <Col>
@@ -234,7 +344,15 @@ const EcommerceAddBlog = () => {
                         </Link>
                       </li>
                       <li className="next">
-                        <Link to="#">Add</Link>
+                        {activeTab === 1 ? (
+                          <Link to="#" onClick={() => toggleTab(activeTab + 1)}>
+                            Next
+                          </Link>
+                        ) : (
+                          <Link to="#" onClick={formik.handleSubmit}>
+                            Add Blog
+                          </Link>
+                        )}
                       </li>
                     </ul>
                   </div>

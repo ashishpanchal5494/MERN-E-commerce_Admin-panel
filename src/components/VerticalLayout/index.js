@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { connect } from "react-redux";
 // import { withRouter } from "react-router-dom";
 import {
@@ -124,6 +125,18 @@ class Layout extends Component {
           </div>
         </div>
         <Rightbar />
+
+        <ToastContainer
+          position="top-right"
+          autoClose={250}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          theme="light"
+        />
       </React.Fragment>
     );
   }

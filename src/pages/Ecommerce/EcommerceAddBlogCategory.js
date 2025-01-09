@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Button,
   Card,
@@ -18,13 +18,77 @@ import {
   Form,
 } from "reactstrap";
 
-import Dropzone from "react-dropzone";
-import classnames from "classnames";
-
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createNewblogCat,
+  getABlogCat,
+  resetState,
+  updateABlogCat,
+} from "../../features/blogCategory/BlogCategorySlice";
+import { toast } from "react-toastify";
+import { useFormik } from "formik";
+import * as yup from "yup";
+
+let schema = yup.object().shape({
+  title: yup.string().required("Category Name is Required"),
+});
 
 const EcommerceAddBlogCategory = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const getBlogCatId = location.pathname.split("/")[2];
+  const newBlogCategory = useSelector((state) => state.blogCategory);
+  const {
+    isSuccess,
+    isError,
+    isLoading,
+    createBlogCategory,
+    blogCatName,
+    updatedBlogCategory,
+  } = newBlogCategory;
+  useEffect(() => {
+    if (getBlogCatId !== undefined) {
+      dispatch(getABlogCat(getBlogCatId));
+    } else {
+      dispatch(resetState());
+    }
+  }, [getBlogCatId]);
+  useEffect(() => {
+    if (isSuccess && createBlogCategory) {
+      toast.success("Blog Category Added Successfullly!");
+    }
+    if (isSuccess && updatedBlogCategory) {
+      toast.success("Blog Category Updated Successfullly!");
+      navigate("/ecommerce-blog-category-list");
+    }
+    if (isError) {
+      toast.error("Something Went Wrong!");
+    }
+  }, [isSuccess, isError, isLoading]);
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      title: blogCatName || "",
+    },
+    validationSchema: schema,
+    onSubmit: (values) => {
+      const data = { id: getBlogCatId, blogCatData: values };
+      if (getBlogCatId !== undefined) {
+        dispatch(updateABlogCat(data));
+        dispatch(resetState());
+      } else {
+        dispatch(createNewblogCat(values));
+        formik.resetForm();
+        setTimeout(() => {
+          dispatch(resetState());
+        }, 300);
+      }
+    },
+  });
+
   const breadcrumbItems = [
     { title: "Ecommerce", link: "#" },
     { title: "Add Blog Category", link: "#" },
@@ -36,7 +100,11 @@ const EcommerceAddBlogCategory = () => {
         <Container fluid>
           {/* Render Breadcrumb */}
           <Breadcrumbs
-            title="Add Blog Category"
+            title={
+              getBlogCatId !== undefined
+                ? "Edit Blog Category"
+                : "Add Blog Category"
+            }
             breadcrumbItems={breadcrumbItems}
           />
 
@@ -64,14 +132,23 @@ const EcommerceAddBlogCategory = () => {
                               name="productname"
                               type="text"
                               className="form-control"
+                              onChange={formik.handleChange("title")}
+                              onBlur={formik.handleBlur("title")}
+                              value={formik.values.title}
                             />
+                            <div className="error">
+                              {formik.touched.title && formik.errors.title}
+                            </div>
                           </div>
                         </form>
                       </TabPane>
                     </TabContent>
                     <ul className="pager wizard twitter-bs-wizard-pager-link">
                       <li>
-                        <Link to="#">Add</Link>
+                        <Link onClick={formik.handleSubmit} to="#">
+                          {getBlogCatId !== undefined ? "Edit" : "Add"} Blog
+                          Category
+                        </Link>
                       </li>
                     </ul>
                   </div>
