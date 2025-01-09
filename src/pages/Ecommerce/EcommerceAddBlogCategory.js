@@ -62,7 +62,14 @@ const EcommerceAddBlogCategory = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
-  }, [isSuccess, isError, isLoading, updatedBlogCategory, createBlogCategory]);
+  }, [
+    isSuccess,
+    isError,
+    isLoading,
+    updatedBlogCategory,
+    createBlogCategory,
+    navigate,
+  ]);
 
   const formik = useFormik({
     enableReinitialize: true,

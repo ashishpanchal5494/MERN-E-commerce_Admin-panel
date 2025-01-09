@@ -73,7 +73,7 @@ const EcommerceAddBlog = () => {
     } else {
       dispatch(resetState());
     }
-  }, [dispatch]);
+  }, [dispatch, blogImages, getBlogId, img]);
 
   useEffect(() => {
     dispatch(resetState());
@@ -103,7 +103,7 @@ const EcommerceAddBlog = () => {
   console.log(img);
   useEffect(() => {
     formik.values.images = img;
-  }, []);
+  }, [formik.values, img]);
 
   const formik = useFormik({
     enableReinitialize: true,

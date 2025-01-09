@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  Button,
   Card,
   CardBody,
   CardTitle,
@@ -67,7 +66,15 @@ const EcommerceAddBrand = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
-  }, [isSuccess, isError, isLoading, updatedBrand, dispatch, navigate]);
+  }, [
+    isSuccess,
+    isError,
+    isLoading,
+    updatedBrand,
+    createdBrand,
+    dispatch,
+    navigate,
+  ]);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
