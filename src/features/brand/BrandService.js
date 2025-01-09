@@ -1,121 +1,99 @@
-import { config } from "../../utils/axiosCofig"; // Assuming this contains headers or token
 import { base_url } from "../../utils/base_url";
 
-// Helper to get headers from config
-const getHeaders = () => {
-  const token = localStorage.getItem("user"); // Or get it from the Redux store
-  return {
-    ...config.headers,
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`, // If required
-  };
-};
-
-// Fetch all brands
 const getBrands = async () => {
-  try {
-    const response = await fetch(`${base_url}brand/`, {
-      method: "GET",
-      headers: getHeaders(),
-    });
+  const response = await fetch(`${base_url}brand/`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+  });
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch brands");
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching brands", error);
-    throw error;
+  if (!response.ok) {
+    throw new Error("Failed to fetch brands");
   }
+  return response.json();
 };
 
-// Create a new brand
 const createBrand = async (brand) => {
-  try {
-    const response = await fetch(`${base_url}brand/`, {
-      method: "POST",
-      headers: getHeaders(),
-      body: JSON.stringify(brand),
-    });
+  const response = await fetch(`${base_url}brand/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${
+        getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
+      }`,
+    },
+    body: JSON.stringify(brand),
+  });
 
-    if (!response.ok) {
-      const errorText = await response.text(); // Get the error text from response
-      throw new Error(`Failed to create brand: ${errorText}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error creating brand:", error);
-    throw error;
+  if (!response.ok) {
+    throw new Error("Failed to create brand");
   }
+  return response.json();
 };
 
-// Update an existing brand
 const updateBrand = async (brand) => {
-  try {
-    const response = await fetch(`${base_url}brand/${brand.id}`, {
-      method: "PUT",
-      headers: getHeaders(),
-      body: JSON.stringify({ title: brand.brandData.title }),
-    });
+  const response = await fetch(`${base_url}brand/${brand.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${
+        getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
+      }`,
+    },
+    body: JSON.stringify({ title: brand.brandData.title }),
+  });
 
-    if (!response.ok) {
-      throw new Error("Failed to update brand");
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error updating brand", error);
-    throw error;
+  if (!response.ok) {
+    throw new Error("Failed to update brand");
   }
+  return response.json();
 };
 
-// Fetch a specific brand by ID
 const getBrand = async (id) => {
-  try {
-    const response = await fetch(`${base_url}brand/${id}`, {
-      method: "GET",
-      headers: getHeaders(),
-    });
+  const response = await fetch(`${base_url}brand/${id}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${
+        getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
+      }`,
+      Accept: "application/json",
+    },
+  });
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch brand");
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching brand", error);
-    throw error;
+  if (!response.ok) {
+    throw new Error("Failed to fetch brand");
   }
+  return response.json();
 };
 
-// Delete a specific brand by ID
 const deleteBrand = async (id) => {
-  try {
-    const response = await fetch(`${base_url}brand/${id}`, {
-      method: "DELETE",
-      headers: getHeaders(),
-    });
+  const response = await fetch(`${base_url}brand/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${
+        getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
+      }`,
+      Accept: "application/json",
+    },
+  });
 
-    if (!response.ok) {
-      throw new Error("Failed to delete brand");
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error deleting brand", error);
-    throw error;
+  if (!response.ok) {
+    throw new Error("Failed to delete brand");
   }
+  return response.json();
 };
 
-// Exporting brandService as an object containing all the functions
-const BrandService = {
+const brandService = {
   getBrands,
   createBrand,
-  updateBrand,
   getBrand,
+  updateBrand,
   deleteBrand,
 };
 
-export default BrandService;
+export default brandService;
+
+const getTokenFromLocalStorage = localStorage.getItem("user")
+  ? JSON.parse(localStorage.getItem("user"))
+  : null;
