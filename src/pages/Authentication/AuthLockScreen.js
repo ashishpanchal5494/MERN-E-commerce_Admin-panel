@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 
 //Import Images
-import logodark from "../../assets/images/logo-dark.png";
+import logodark from "../../assets/images/mylogo2.png";
 import avatar2 from "../../assets/images/users/avatar-2.jpg";
 
 class AuthLockScreen extends Component {
@@ -33,7 +33,7 @@ class AuthLockScreen extends Component {
                           <div className="text-center">
                             <div>
                               <Link to="/" className="logo">
-                                <img src={logodark} height="20" alt="logo" />
+                                <img src={logodark} height="40" alt="logo" />
                               </Link>
                             </div>
 
@@ -97,7 +97,7 @@ class AuthLockScreen extends Component {
                               </Link>{" "}
                             </p>
                             <p>
-                              © 2024 Vishwakarma. Created{" "}
+                              © 2024 Vishwakarma Store. Created{" "}
                               <i className="mdi mdi-heart text-danger"></i> by
                               Ashish Panchal
                             </p>

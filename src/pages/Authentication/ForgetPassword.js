@@ -12,7 +12,7 @@ import { AvForm, AvField } from "availity-reactstrap-validation";
 import { forgetUser } from "../../store/actions";
 
 // import images
-import logodark from "../../assets/images/logo-dark.png";
+import logodark from "../../assets/images/mylogo2.png";
 import withRouter from "../../components/Common/withRouter";
 
 const ForgetPasswordPage = (props) => {
@@ -37,13 +37,13 @@ const ForgetPasswordPage = (props) => {
                         <div className="text-center">
                           <div>
                             <Link to="/" className="logo">
-                              <img src={logodark} height="20" alt="logo" />
+                              <img src={logodark} height="40" alt="logo" />
                             </Link>
                           </div>
 
                           <h4 className="font-size-18 mt-4">Reset Password</h4>
                           <p className="text-muted">
-                            Reset your password to Nazox.
+                            Reset your password to Vishwakarma Store.
                           </p>
                         </div>
 
@@ -100,7 +100,7 @@ const ForgetPasswordPage = (props) => {
                             </Link>
                           </p>
                           <p>
-                            © 2024 Vishwakarma. Created{" "}
+                            © 2024 Vishwakarma Store. Created{" "}
                             <i className="mdi mdi-heart text-danger"></i> by
                             Ashish Panchal
                           </p>

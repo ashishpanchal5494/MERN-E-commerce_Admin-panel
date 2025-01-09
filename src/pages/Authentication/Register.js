@@ -10,7 +10,7 @@ import {
 } from "../../store/actions";
 
 // import images
-import logodark from "../../assets/images/logo-dark.png";
+import logodark from "../../assets/images/mylogo2.png";
 
 const Register = (props) => {
   const [email, setEmail] = useState("");
@@ -43,17 +43,15 @@ const Register = (props) => {
                     <Col lg={9}>
                       <div>
                         <div className="text-center">
-                          <div>
+                          <div style={{ marginTop: "50px" }}>
                             <Link to="#" className="logo">
-                              <img src={logodark} height="20" alt="logo" />
+                              <img src={logodark} height="30" alt="logo" />
                             </Link>
                           </div>
 
-                          <h4 className="font-size-18 mt-4">
-                            Register account
-                          </h4>
+                          <h4 className="font-size-18">Register account</h4>
                           <p className="text-muted">
-                            Get your free Nazox account now.
+                            Get your free Vishwakarma Store account now.
                           </p>
                         </div>
 
@@ -129,7 +127,8 @@ const Register = (props) => {
 
                             <div className="mt-4 text-center">
                               <p className="mb-0">
-                                By registering you agree to the Nazox{" "}
+                                By registering you agree to the Vishwakarma
+                                Store{" "}
                                 <Link to="#" className="text-primary">
                                   Terms of Use
                                 </Link>
@@ -150,7 +149,7 @@ const Register = (props) => {
                             </Link>{" "}
                           </p>
                           <p>
-                            © 2024 Vishwakarma. Created{" "}
+                            © 2024 Vishwakarma Store. Created{" "}
                             <i className="mdi mdi-heart text-danger"></i> by
                             Ashish Panchal
                           </p>

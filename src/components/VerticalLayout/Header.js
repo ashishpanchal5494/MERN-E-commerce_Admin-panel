@@ -19,10 +19,10 @@ import { withTranslation } from "react-i18next";
 import { toggleRightSidebar } from "../../store/actions";
 
 //Import logo Images
-import logosmdark from "../../assets/images/logo-sm-dark.png";
-import logodark from "../../assets/images/logo-dark.png";
-import logosmlight from "../../assets/images/logo-sm-light.png";
-import logolight from "../../assets/images/logo-light.png";
+import logosmdark from "../../assets/images/smlogo.png";
+import logodark from "../../assets/images/mylogo2.png";
+import logosmlight from "../../assets/images/smlogo.png";
+import logolight from "../../assets/images/mylogo2.png";
 
 //Import Social Profile Images
 
@@ -87,19 +87,19 @@ class Header extends Component {
               <div className="navbar-brand-box">
                 <Link to="#" className="logo logo-dark">
                   <span className="logo-sm">
-                    <img src={logosmdark} alt="" height="22" />
+                    <img src={logosmdark} alt="" height="30" />
                   </span>
                   <span className="logo-lg">
-                    <img src={logodark} alt="" height="20" />
+                    <img src={logodark} alt="" height="40" />
                   </span>
                 </Link>
 
                 <Link to="#" className="logo logo-light">
                   <span className="logo-sm">
-                    <img src={logosmlight} alt="" height="22" />
+                    <img src={logosmlight} alt="" height="30" />
                   </span>
                   <span className="logo-lg">
-                    <img src={logolight} alt="" height="20" />
+                    <img src={logolight} alt="" height="40" />
                   </span>
                 </Link>
               </div>

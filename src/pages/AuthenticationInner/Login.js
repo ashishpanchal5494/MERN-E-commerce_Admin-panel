@@ -53,7 +53,7 @@ const Login = () => {
 
                           <h4 className="font-size-18 mt-4">Welcome Back !</h4>
                           <p className="text-muted">
-                            Sign in to continue to Nazox.
+                            Sign in to continue to Vishwakarma Store.
                           </p>
                         </div>
 
@@ -128,9 +128,9 @@ const Login = () => {
                             </Link>{" "}
                           </p>
                           <p>
-                            © 2021 Nazox. Crafted with{" "}
+                            © 2021 Vishwakarma Store. Crafted with{" "}
                             <i className="mdi mdi-heart text-danger"></i> by
-                            Themesdesign
+                            Ashish Panchal
                           </p>
                         </div>
                       </div>

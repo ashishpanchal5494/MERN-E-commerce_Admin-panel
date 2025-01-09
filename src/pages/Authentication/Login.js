@@ -4,8 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import logodark from "../../assets/images/logo-dark.png";
-import logolight from "../../assets/images/logo-light.png";
+import logodark from "../../assets/images/mylogo2.png";
+import logolight from "../../assets/images/mylogo2.png";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../features/auth/AuthSlice";
 
@@ -54,18 +54,18 @@ const Login = () => {
                     <Col lg={9}>
                       <div>
                         <div className="text-center">
-                          <div>
+                          <div style={{ marginTop: "20px" }}>
                             <Link to="/" className="">
                               <img
                                 src={logodark}
                                 alt=""
-                                height="20"
+                                height="40"
                                 className="auth-logo logo-dark mx-auto"
                               />
                               <img
                                 src={logolight}
                                 alt=""
-                                height="20"
+                                height="40"
                                 className="auth-logo logo-light mx-auto"
                               />
                             </Link>
@@ -73,7 +73,7 @@ const Login = () => {
 
                           <h4 className="font-size-18 mt-4">Welcome Back !</h4>
                           <p className="text-muted">
-                            Sign in to continue to Nazox.
+                            Sign in to continue to Vishwakarma Store.
                           </p>
                         </div>
                         {message.message === "Rejected"
@@ -174,7 +174,7 @@ const Login = () => {
                             </Link>{" "}
                           </p>
                           <p>
-                            © 2024 Vishwakarma. Created{" "}
+                            © 2024 Vishwakarma Store. Created{" "}
                             <i className="mdi mdi-heart text-danger"></i> by
                             Ashish Panchal
                           </p>
