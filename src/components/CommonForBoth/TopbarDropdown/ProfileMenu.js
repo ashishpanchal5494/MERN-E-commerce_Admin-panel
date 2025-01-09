@@ -22,6 +22,7 @@ const ProfileMenu = (props) => {
 
   const handleLogout = () => {
     AuthService.logout(); // Call the logout method from AuthService
+    localStorage.removeItem("user");
     window.location.href = "/login"; // Redirect to login page after logout
   };
 
