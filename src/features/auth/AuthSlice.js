@@ -23,6 +23,11 @@ export const login = createAsyncThunk(
   }
 );
 
+export const logout = createAsyncThunk("auth/logout", async () => {
+  await AuthService.logout(); // Call the logout API or logic from AuthService
+  return; // Return null or nothing after logout
+});
+
 export const getOrders = createAsyncThunk(
   "order/get-orders",
   async (thunkAPI) => {
@@ -66,8 +71,19 @@ export const AuthSlice = createSlice({
         state.message = action.error;
         state.isLoading = false;
       })
-      .addCase(getOrders.pending, (state) => {
+      .addCase(logout.pending, (state) => {
         state.isLoading = true;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.isLoading = false;
+        state.user = null; // Clear the user data in Redux
+        state.isSuccess = true;
+        localStorage.removeItem("user"); // Remove user data from localStorage
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.error.message;
       })
       .addCase(getOrders.fulfilled, (state, action) => {
         state.isError = false;

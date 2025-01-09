@@ -60,11 +60,32 @@ const getOrder = async (id) => {
   return data;
 };
 
-// Export the authService object with the new fetch-based methods
+// AuthService.js
+const logout = async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user?.token; // Adjust based on how your token is stored
+
+  const response = await fetch(`${base_url}user/logout`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token ? `Bearer ${token}` : "",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Logout failed");
+  }
+
+  // Remove user from local storage and clear token
+  localStorage.removeItem("user");
+};
+
 const AuthService = {
   login,
   getOrders,
   getOrder,
+  logout,
 };
 
 export default AuthService;

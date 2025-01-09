@@ -1,82 +1,78 @@
-import React, { Component } from "react";
+// In ProfileMenu.js
+import React, { useState } from "react";
 import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
-
-//i18n
 import { withTranslation } from "react-i18next";
+import { connect } from "react-redux";
+import AuthService from "../../../features/auth/AuthService"; // Import default AuthService
 
 // users
 import avatar2 from "../../../assets/images/users/Photo.png";
 
-class ProfileMenu extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      menu: false,
-    };
-    this.toggle = this.toggle.bind(this);
+const ProfileMenu = (props) => {
+  const [menu, setMenu] = useState(false);
+
+  const toggle = () => {
+    setMenu((prevState) => !prevState);
+  };
+
+  const handleLogout = () => {
+    AuthService.logout(); // Call the logout method from AuthService
+    window.location.href = "/login"; // Redirect to login page after logout
+  };
+
+  let username = "Ashish";
+  if (localStorage.getItem("user")) {
+    const obj = JSON.parse(localStorage.getItem("user"));
+    const uNm = obj.email.split("@")[0];
+    username = uNm.charAt(0).toUpperCase() + uNm.slice(1);
   }
 
-  toggle() {
-    this.setState((prevState) => ({
-      menu: !prevState.menu,
-    }));
-  }
-
-  render() {
-    let username = "Admin";
-    if (localStorage.getItem("authUser")) {
-      const obj = JSON.parse(localStorage.getItem("authUser"));
-      const uNm = obj.email.split("@")[0];
-      username = uNm.charAt(0).toUpperCase() + uNm.slice(1);
-    }
-
-    return (
-      <React.Fragment>
-        <Dropdown
-          isOpen={this.state.menu}
-          toggle={this.toggle}
-          className="d-inline-block user-dropdown"
+  return (
+    <React.Fragment>
+      <Dropdown
+        isOpen={menu}
+        toggle={toggle}
+        className="d-inline-block user-dropdown"
+      >
+        <DropdownToggle
+          tag="button"
+          className="btn header-item waves-effect"
+          id="page-header-user-dropdown"
         >
-          <DropdownToggle
-            tag="button"
-            className="btn header-item waves-effect"
-            id="page-header-user-dropdown"
-          >
-            <img
-              className="rounded-circle header-profile-user me-1"
-              src={avatar2}
-              alt="Header Avatar"
-            />
-            <span className="d-none d-xl-inline-block ms-1 text-transform">
-              {username}
-            </span>
-            <i className="mdi mdi-chevron-down d-none ms-1 d-xl-inline-block"></i>
-          </DropdownToggle>
-          <DropdownMenu className="dropdown-menu-end">
-            <DropdownItem href="#">
-              <i className="ri-user-line align-middle me-1"></i>{" "}
-              {this.props.t("Profile")}
-            </DropdownItem>
-            <DropdownItem className="d-block" href="#">
-              <span className="badge badge-success float-end mt-1">11</span>
-              <i className="ri-settings-2-line align-middle me-1"></i>{" "}
-              {this.props.t("Settings")}
-            </DropdownItem>
-            <DropdownItem divider />
-            <DropdownItem className="text-danger" href="/logout">
-              <i className="ri-shut-down-line align-middle me-1 text-danger"></i>{" "}
-              {this.props.t("Logout")}
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      </React.Fragment>
-    );
-  }
-}
+          <img
+            className="rounded-circle header-profile-user me-1"
+            src={avatar2}
+            alt="Header Avatar"
+          />
+          <span className="d-none d-xl-inline-block ms-1 text-transform">
+            {username}
+          </span>
+          <i className="mdi mdi-chevron-down d-none ms-1 d-xl-inline-block"></i>
+        </DropdownToggle>
+        <DropdownMenu className="dropdown-menu-end">
+          <DropdownItem href="#">
+            <i className="ri-user-line align-middle me-1"></i>{" "}
+            {props.t("Profile")}
+          </DropdownItem>
+          <DropdownItem className="d-block" href="#">
+            <span className="badge badge-success float-end mt-1">11</span>
+            <i className="ri-settings-2-line align-middle me-1"></i>{" "}
+            {props.t("Settings")}
+          </DropdownItem>
+          <DropdownItem divider />
+          <DropdownItem className="text-danger" onClick={handleLogout}>
+            <i className="ri-shut-down-line align-middle me-1 text-danger"></i>{" "}
+            {props.t("Logout")}
+          </DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+    </React.Fragment>
+  );
+};
 
-export default withTranslation()(ProfileMenu);
+export default connect(null)(withTranslation()(ProfileMenu));
