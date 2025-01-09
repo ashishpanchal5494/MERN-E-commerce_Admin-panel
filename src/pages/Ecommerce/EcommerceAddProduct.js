@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
-  Button,
   Card,
   CardBody,
   CardTitle,
@@ -13,7 +12,6 @@ import {
   NavLink,
   TabContent,
   TabPane,
-  Form,
   Label,
   Input,
 } from "reactstrap";
@@ -125,7 +123,7 @@ const EcommerceAddProduct = () => {
     if (JSON.stringify(formik.values.images) !== JSON.stringify(img)) {
       formik.setFieldValue("images", img);
     }
-  }, [color, img, formik.values.color, formik.values.images]);
+  }, [color, img, formik.values.color, formik.values.images, formik]);
 
   const handleColors = (selectedOptions) => {
     setColor(selectedOptions);

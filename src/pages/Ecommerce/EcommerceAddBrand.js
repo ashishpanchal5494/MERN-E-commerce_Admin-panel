@@ -10,12 +10,8 @@ import {
   Input,
   Label,
   Row,
-  Nav,
-  NavItem,
-  NavLink,
   TabContent,
   TabPane,
-  Form,
 } from "reactstrap";
 
 //Import Breadcrumb
@@ -71,7 +67,7 @@ const EcommerceAddBrand = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
-  }, [isSuccess, isError, isLoading, createBrand]);
+  }, [isSuccess, isError, isLoading, updatedBrand, dispatch, navigate]);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {

@@ -41,7 +41,6 @@ import mail_chimp from "../../assets/images/brands/mail_chimp.png";
 import slack from "../../assets/images/brands/slack.png";
 
 //Import mega menu image
-import megamenuImg from "../../assets/images/megamenu-img.png";
 
 // Redux Store
 import { toggleRightSidebar } from "../../store/actions";

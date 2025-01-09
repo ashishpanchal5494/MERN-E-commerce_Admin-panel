@@ -1,15 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import {
-  Row,
-  Col,
-  Form,
-  FormGroup,
-  InputGroup,
-  Input,
-  Button,
-} from "reactstrap";
+import { Form, FormGroup, InputGroup, Input, Button } from "reactstrap";
 
 import { Link } from "react-router-dom";
 

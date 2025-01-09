@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import {
-  Button,
   Card,
   CardBody,
   CardTitle,
@@ -12,12 +11,8 @@ import {
   Input,
   Label,
   Row,
-  Nav,
-  NavItem,
-  NavLink,
   TabContent,
   TabPane,
-  Form,
 } from "reactstrap";
 
 //Import Breadcrumb
@@ -54,7 +49,7 @@ const EcommerceAddCategory = () => {
     } else {
       dispatch(resetState());
     }
-  }, [getPCatId]);
+  }, [getPCatId, dispatch]);
   useEffect(() => {
     if (isSuccess && createdCategory) {
       toast.success("Category Added Successfullly!");
@@ -66,7 +61,14 @@ const EcommerceAddCategory = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
-  }, [isSuccess, isError, isLoading]);
+  }, [
+    isSuccess,
+    isError,
+    isLoading,
+    navigate,
+    createdCategory,
+    updatedCategory,
+  ]);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {

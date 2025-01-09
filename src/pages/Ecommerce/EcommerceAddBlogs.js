@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  Button,
   Card,
   CardBody,
   CardTitle,
@@ -17,7 +16,6 @@ import {
   TabPane,
   Form,
 } from "reactstrap";
-import Select from "react-select";
 import { toast } from "react-toastify";
 
 import * as yup from "yup";
@@ -75,7 +73,7 @@ const EcommerceAddBlog = () => {
     } else {
       dispatch(resetState());
     }
-  }, [getBlogId, dispatch]);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(resetState());
@@ -93,7 +91,7 @@ const EcommerceAddBlog = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
-  }, [isSuccess, isError, isLoading, createdBlog, updatedBlog]);
+  }, [isSuccess, isError, isLoading, createdBlog, updatedBlog, navigate]);
 
   const img = [];
   imgState.forEach((i) => {
@@ -105,7 +103,7 @@ const EcommerceAddBlog = () => {
   console.log(img);
   useEffect(() => {
     formik.values.images = img;
-  }, [blogImages]);
+  }, []);
 
   const formik = useFormik({
     enableReinitialize: true,

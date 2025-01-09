@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  Button,
   Card,
   CardBody,
   CardTitle,
@@ -10,12 +9,8 @@ import {
   Input,
   Label,
   Row,
-  Nav,
-  NavItem,
-  NavLink,
   TabContent,
   TabPane,
-  Form,
 } from "reactstrap";
 
 //Import Breadcrumb
@@ -66,7 +61,7 @@ const EcommerceAddCoupon = () => {
     } else {
       dispatch(resetState());
     }
-  }, [getCouponId]);
+  }, [getCouponId, dispatch]);
 
   useEffect(() => {
     if (isSuccess && createdCoupon) {
@@ -79,7 +74,17 @@ const EcommerceAddCoupon = () => {
     if (isError && couponName && couponDiscount && couponExpiry) {
       toast.error("Something Went Wrong!");
     }
-  }, [isSuccess, isError, isLoading]);
+  }, [
+    isSuccess,
+    isError,
+    isLoading,
+    createdCoupon,
+    updatedCoupon,
+    couponName,
+    couponDiscount,
+    couponExpiry,
+    navigate,
+  ]);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  Button,
   Card,
   CardBody,
   CardTitle,
@@ -10,12 +9,8 @@ import {
   Input,
   Label,
   Row,
-  Nav,
-  NavItem,
-  NavLink,
   TabContent,
   TabPane,
-  Form,
 } from "reactstrap";
 
 //Import Breadcrumb
@@ -55,7 +50,7 @@ const EcommerceAddBlogCategory = () => {
     } else {
       dispatch(resetState());
     }
-  }, [getBlogCatId]);
+  }, [getBlogCatId, dispatch]);
   useEffect(() => {
     if (isSuccess && createBlogCategory) {
       toast.success("Blog Category Added Successfullly!");
@@ -67,7 +62,8 @@ const EcommerceAddBlogCategory = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
-  }, [isSuccess, isError, isLoading]);
+  }, [isSuccess, isError, isLoading, updatedBlogCategory, createBlogCategory]);
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {

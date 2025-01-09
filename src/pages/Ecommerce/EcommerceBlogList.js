@@ -4,7 +4,7 @@ import TableContainer from "../../components/Common/TableContainer";
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import { Card, CardBody, Container } from "reactstrap";
-import { orders } from "../../common/data/ecommerce";
+
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  Button,
   Card,
   CardBody,
   CardTitle,
@@ -10,12 +9,8 @@ import {
   Input,
   Label,
   Row,
-  Nav,
-  NavItem,
-  NavLink,
   TabContent,
   TabPane,
-  Form,
 } from "reactstrap";
 
 //Import Breadcrumb
@@ -56,7 +51,7 @@ const EcommerceAddColor = () => {
     } else {
       dispatch(resetState());
     }
-  }, [getColorId]);
+  }, [getColorId, dispatch]);
   useEffect(() => {
     if (isSuccess && createdColor) {
       toast.success("Color Added Successfullly!");
@@ -68,7 +63,7 @@ const EcommerceAddColor = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
-  }, [isSuccess, isError, isLoading, createdColor]);
+  }, [isSuccess, isError, isLoading, createdColor, navigate, updatedColor]);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
