@@ -66,14 +66,6 @@ const EcommerceAddBlog = () => {
     blogImages,
     updatedBlog,
   } = blogState;
-  useEffect(() => {
-    if (getBlogId !== undefined) {
-      dispatch(getABlog(getBlogId));
-      img.push(blogImages);
-    } else {
-      dispatch(resetState());
-    }
-  }, [dispatch, blogImages, getBlogId, img]);
 
   useEffect(() => {
     dispatch(resetState());
@@ -100,6 +92,16 @@ const EcommerceAddBlog = () => {
       url: i.url,
     });
   });
+
+  useEffect(() => {
+    if (getBlogId !== undefined) {
+      dispatch(getABlog(getBlogId));
+      img.push(blogImages); // This uses img after it's initialized
+    } else {
+      dispatch(resetState());
+    }
+  }, [dispatch, blogImages, getBlogId]);
+
   console.log(img);
   useEffect(() => {
     formik.values.images = img;
