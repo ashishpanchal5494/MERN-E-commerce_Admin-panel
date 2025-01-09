@@ -70,26 +70,6 @@ const EcommerceAddBlog = () => {
     updatedBlog,
   } = blogState;
 
-  useEffect(() => {
-    dispatch(resetState());
-    dispatch(getCategories());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isSuccess && createdBlog) {
-      toast.success("Blog Added Successfully!");
-      formik.resetForm();
-      dispatch(resetState());
-    }
-    if (isSuccess && updatedBlog) {
-      toast.success("Blog Updated Successfully!");
-      navigate("/ecommerce-blog-list");
-    }
-    if (isError) {
-      toast.error("Something Went Wrong!");
-    }
-  }, [isSuccess, isError, createdBlog, updatedBlog, dispatch, navigate]);
-
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -139,7 +119,36 @@ const EcommerceAddBlog = () => {
     if (img.length > 0 && formik.values.images !== img) {
       formik.setFieldValue("images", img);
     }
-  }, [formik, img]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [img]);
+
+  useEffect(() => {
+    dispatch(resetState());
+    dispatch(getCategories());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isSuccess && createdBlog) {
+      toast.success("Blog Added Successfully!");
+      formik.resetForm();
+      dispatch(resetState());
+    }
+    if (isSuccess && updatedBlog) {
+      toast.success("Blog Updated Successfully!");
+      navigate("/ecommerce-blog-list");
+    }
+    if (isError) {
+      toast.error("Something Went Wrong!");
+    }
+  }, [
+    isSuccess,
+    isError,
+    createdBlog,
+    updatedBlog,
+    dispatch,
+    navigate,
+    formik,
+  ]);
 
   return (
     <React.Fragment>
