@@ -31,6 +31,7 @@ const EcommerceBlogList = () => {
     dispatch(getBlogs());
   }, [dispatch]);
   const getBlogState = useSelector((state) => state.blog.blogs);
+  console.log(getBlogState);
   const data1 = [];
   for (let i = 0; i < getBlogState.length; i++) {
     data1.push({

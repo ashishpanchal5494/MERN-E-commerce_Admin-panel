@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Card,
@@ -24,7 +24,7 @@ import classnames from "classnames";
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import {
   createBlogs,
   getABlog,
@@ -52,18 +52,21 @@ const EcommerceAddBlog = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const getBlogId = location.pathname.split("/")[2];
-  const imgState = useSelector((state) => state.upload.images);
-  const bCatState = useSelector((state) => state.blogCategory.bCategories);
+  const imgState = useSelector((state) => state.upload.images, shallowEqual);
+  const bCatState = useSelector(
+    (state) => state.blogCategory.bCategories,
+    shallowEqual
+  );
   const blogState = useSelector((state) => state.blog);
   const {
     isSuccess,
     isError,
-    isLoading,
+
     createdBlog,
     blogName,
     blogDesc,
     blogCategory,
-    blogImages,
+
     updatedBlog,
   } = blogState;
 
@@ -74,40 +77,18 @@ const EcommerceAddBlog = () => {
 
   useEffect(() => {
     if (isSuccess && createdBlog) {
-      toast.success("Blog Added Successfullly!");
+      toast.success("Blog Added Successfully!");
+      formik.resetForm();
+      dispatch(resetState());
     }
     if (isSuccess && updatedBlog) {
-      toast.success("Blog Updated Successfullly!");
+      toast.success("Blog Updated Successfully!");
       navigate("/ecommerce-blog-list");
     }
     if (isError) {
       toast.error("Something Went Wrong!");
     }
-  }, [isSuccess, isError, isLoading, createdBlog, updatedBlog, navigate]);
-
-  const img = useMemo(() => {
-    return imgState.map((i) => ({
-      public_id: i.public_id,
-      url: i.url,
-    }));
-  }, [imgState]);
-
-  useEffect(() => {
-    if (getBlogId !== undefined) {
-      dispatch(getABlog(getBlogId));
-    } else {
-      dispatch(resetState());
-    }
-  }, [dispatch, getBlogId]);
-
-  useEffect(() => {
-    formik.setFieldValue("images", img); // Use `setFieldValue` explicitly
-  }, [formik, img]);
-
-  console.log(img);
-  useEffect(() => {
-    formik.values.images = img;
-  }, [formik.values, img]);
+  }, [isSuccess, isError, createdBlog, updatedBlog, dispatch, navigate]);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -138,6 +119,27 @@ const EcommerceAddBlog = () => {
       setActiveTab(tab);
     }
   };
+
+  const img = useMemo(() => {
+    return imgState.map((i) => ({
+      public_id: i.public_id,
+      url: i.url,
+    }));
+  }, [imgState]);
+
+  useEffect(() => {
+    if (getBlogId !== undefined) {
+      dispatch(getABlog(getBlogId));
+    } else {
+      dispatch(resetState());
+    }
+  }, [dispatch, getBlogId]);
+
+  useEffect(() => {
+    if (img.length > 0 && formik.values.images !== img) {
+      formik.setFieldValue("images", img);
+    }
+  }, [formik, img]);
 
   return (
     <React.Fragment>
@@ -221,19 +223,22 @@ const EcommerceAddBlog = () => {
                                 Blog Category
                               </Label>
                               <select
-                                onChange={formik.handleChange("category")}
-                                onBlur={formik.handleBlur("category")}
-                                value={formik.values.category}
                                 className="form-control select2"
+                                value={formik.values.category}
+                                onChange={(e) =>
+                                  formik.setFieldValue(
+                                    "category",
+                                    e.target.value
+                                  )
+                                }
+                                onBlur={formik.handleBlur("category")}
                               >
                                 <option value="">Select Blog Category</option>
-                                {bCatState.map((i, j) => {
-                                  return (
-                                    <option key={j} value={i.title}>
-                                      {i.title}
-                                    </option>
-                                  );
-                                })}
+                                {bCatState.map((i, j) => (
+                                  <option key={j} value={i.title}>
+                                    {i.title}
+                                  </option>
+                                ))}
                               </select>
                               <div className="error">
                                 {formik.touched.category &&
@@ -265,9 +270,17 @@ const EcommerceAddBlog = () => {
                         <p className="card-title-desc">Upload product image</p>
                         <Form className="dropzone">
                           <Dropzone
-                            onDrop={(acceptedFiles) =>
-                              dispatch(uploadImg(acceptedFiles))
-                            }
+                            maxSize={1048576} // 1MB
+                            maxFiles={5} // Maximum 5 files
+                            onDrop={(acceptedFiles) => {
+                              if (acceptedFiles.length > 5) {
+                                toast.error(
+                                  "You can upload a maximum of 5 files."
+                                );
+                              } else {
+                                dispatch(uploadImg(acceptedFiles));
+                              }
+                            }}
                             accept={{
                               "image/jpeg": [".jpeg", ".jpg"],
                               "image/png": [".png"],
@@ -351,9 +364,16 @@ const EcommerceAddBlog = () => {
                             Next
                           </Link>
                         ) : (
-                          <Link to="#" onClick={formik.handleSubmit}>
+                          <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              formik.handleSubmit();
+                            }}
+                          >
                             Add Blog
-                          </Link>
+                          </button>
                         )}
                       </li>
                     </ul>
