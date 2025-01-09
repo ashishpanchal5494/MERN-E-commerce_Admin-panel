@@ -3,9 +3,11 @@ import { base_url } from "../../utils/base_url";
 
 // Helper to get headers from config
 const getHeaders = () => {
+  const token = localStorage.getItem("user"); // Or get it from the Redux store
   return {
-    ...config.headers, // Assuming config contains headers for authorization, etc.
+    ...config.headers,
     "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`, // If required
   };
 };
 
@@ -38,12 +40,13 @@ const createBrand = async (brand) => {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to create brand");
+      const errorText = await response.text(); // Get the error text from response
+      throw new Error(`Failed to create brand: ${errorText}`);
     }
 
     return await response.json();
   } catch (error) {
-    console.error("Error creating brand", error);
+    console.error("Error creating brand:", error);
     throw error;
   }
 };
