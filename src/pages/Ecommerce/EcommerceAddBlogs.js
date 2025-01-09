@@ -85,22 +85,24 @@ const EcommerceAddBlog = () => {
     }
   }, [isSuccess, isError, isLoading, createdBlog, updatedBlog, navigate]);
 
-  const img = [];
-  imgState.forEach((i) => {
-    img.push({
+  const img = useMemo(() => {
+    return imgState.map((i) => ({
       public_id: i.public_id,
       url: i.url,
-    });
-  });
+    }));
+  }, [imgState]);
 
   useEffect(() => {
     if (getBlogId !== undefined) {
       dispatch(getABlog(getBlogId));
-      img.push(blogImages); // This uses img after it's initialized
     } else {
       dispatch(resetState());
     }
-  }, [dispatch, blogImages, getBlogId]);
+  }, [dispatch, getBlogId]);
+
+  useEffect(() => {
+    formik.setFieldValue("images", img); // Use `setFieldValue` explicitly
+  }, [formik, img]);
 
   console.log(img);
   useEffect(() => {
