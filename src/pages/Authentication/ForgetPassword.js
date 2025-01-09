@@ -12,7 +12,7 @@ import { AvForm, AvField } from "availity-reactstrap-validation";
 import { forgetUser } from "../../store/actions";
 
 // import images
-import logodark from "../../assets/images/mylogo2.png";
+import logodark from "../../assets/images/smlogo.png";
 import withRouter from "../../components/Common/withRouter";
 
 const ForgetPasswordPage = (props) => {

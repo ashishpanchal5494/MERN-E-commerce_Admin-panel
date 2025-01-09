@@ -10,7 +10,7 @@ import {
 } from "../../store/actions";
 
 // import images
-import logodark from "../../assets/images/mylogo2.png";
+import logodark from "../../assets/images/smlogo.png";
 
 const Register = (props) => {
   const [email, setEmail] = useState("");

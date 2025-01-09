@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 import { Row, Col, Button, Container, Label, FormGroup } from "reactstrap";
 
 // import images
-import logodark from "../../assets/images/mylogo2.png";
-import logolight from "../../assets/images/mylogo2.png";
+import logodark from "../../assets/images/smlogo.png";
+import logolight from "../../assets/images/smlogo.png";
 
 class Register extends Component {
   constructor(props) {

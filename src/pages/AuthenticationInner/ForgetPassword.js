@@ -15,8 +15,8 @@ import { Link } from "react-router-dom";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 
 // import images
-import logodark from "../../assets/images/mylogo2.png";
-import logolight from "../../assets/images/mylogo2.png";
+import logodark from "../../assets/images/smlogo.png";
+import logolight from "../../assets/images/smlogo.png";
 
 class ForgetPasswordPage extends Component {
   constructor(props) {

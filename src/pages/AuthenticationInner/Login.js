@@ -10,8 +10,8 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { AvForm, AvField } from "availity-reactstrap-validation";
-import logodark from "../../assets/images/logo-dark.png";
-import logolight from "../../assets/images/logo-light.png";
+import logodark from "../../assets/images/smlogo.png";
+import logolight from "../../assets/images/smlogo.png";
 
 const Login = () => {
   useEffect(() => {

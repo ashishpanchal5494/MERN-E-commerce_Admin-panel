@@ -4,8 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import logodark from "../../assets/images/mylogo2.png";
-import logolight from "../../assets/images/mylogo2.png";
+import logodark from "../../assets/images/smlogo.png";
+import logolight from "../../assets/images/smlogo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../features/auth/AuthSlice";
 

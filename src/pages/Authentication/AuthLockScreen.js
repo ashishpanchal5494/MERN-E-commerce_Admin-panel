@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 
 //Import Images
-import logodark from "../../assets/images/mylogo2.png";
-import avatar2 from "../../assets/images/users/avatar-2.jpg";
+import logodark from "../../assets/images/smlogo.png";
+import avatar2 from "../../assets/images/users/Photo.png";
 
 class AuthLockScreen extends Component {
   componentDidMount() {
@@ -52,7 +52,7 @@ class AuthLockScreen extends Component {
                                   alt="thumbnail"
                                 />
                                 <h5 className="font-size-15 mt-3">
-                                  Jacob Lopez
+                                  Ashish Panchal
                                 </h5>
                               </div>
 

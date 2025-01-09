@@ -32,6 +32,11 @@ const EcommerceProducts = () => {
   const [isFilterProductSizeOpen, setIsFilterProductSizeOpen] = useState(false);
   const [isFilterProductRatingOpen, setIsFilterProductRatingOpen] =
     useState(false);
+  const [searchInput, setSearchInput] = useState(""); // Search input state
+
+  const handleSearchChange = (e) => {
+    setSearchInput(e.target.value);
+  };
 
   const discountData = [
     { value: "10%", label: "10% or more" },
@@ -91,7 +96,11 @@ const EcommerceProducts = () => {
   const [page, setPage] = useState(1);
   const totalPage = Math.ceil(productState.length / ITEMS_PER_PAGE);
 
-  const displayedProducts = productState.slice(
+  const filteredProducts = productState.filter((product) =>
+    product.title.toLowerCase().includes(searchInput.toLowerCase())
+  );
+
+  const displayedProducts = filteredProducts.slice(
     (page - 1) * ITEMS_PER_PAGE,
     page * ITEMS_PER_PAGE
   );
@@ -607,6 +616,8 @@ const EcommerceProducts = () => {
                             type="text"
                             className="form-control rounded"
                             placeholder="Search..."
+                            value={searchInput}
+                            onChange={handleSearchChange} // Update search input
                           />
                           <i className="mdi mdi-magnify search-icon"></i>
                         </div>

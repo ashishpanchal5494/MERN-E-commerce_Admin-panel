@@ -322,32 +322,30 @@ const EcommerceAddBlog = () => {
                                 <div className="p-2">
                                   <Row className="align-items-center">
                                     <Col className="col-auto">
-                                      <button
-                                        type="button"
-                                        onClick={() =>
-                                          dispatch(delImg(f.public_id))
-                                        }
-                                        className="btn-close position-absolute"
-                                        style={{ top: "10px", right: "10px" }}
-                                      ></button>
                                       <img
                                         data-dz-thumbnail=""
                                         height="80"
                                         className="avatar-sm rounded bg-light"
                                         alt=""
-                                        src={f.preview ? f.preview : f.url} // Ensure preview or actual URL
+                                        src={f.url}
                                       />
                                     </Col>
                                     <Col>
                                       <Link
-                                        to="#"
+                                        to={f.url}
                                         className="text-muted font-weight-bold"
                                       >
-                                        {f.name}
+                                        {f.url}
                                       </Link>
-                                      <p className="mb-0">
-                                        <strong>{f.formattedSize}</strong>
-                                      </p>
+                                      <button
+                                        type="button"
+                                        className="ms-3 fs-3 text-danger bg-transparent border-0"
+                                        onClick={() =>
+                                          dispatch(delImg(i.public_id))
+                                        }
+                                      >
+                                        <i className="mdi mdi-trash-can font-size-18"></i>
+                                      </button>
                                     </Col>
                                   </Row>
                                 </div>

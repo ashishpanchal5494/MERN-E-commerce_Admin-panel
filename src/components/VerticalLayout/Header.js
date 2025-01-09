@@ -20,9 +20,9 @@ import { toggleRightSidebar } from "../../store/actions";
 
 //Import logo Images
 import logosmdark from "../../assets/images/smlogo.png";
-import logodark from "../../assets/images/mylogo2.png";
+import logodark from "../../assets/images/mydarklogo.png";
 import logosmlight from "../../assets/images/smlogo.png";
-import logolight from "../../assets/images/mylogo2.png";
+import logolight from "../../assets/images/mylogo3.png";
 
 //Import Social Profile Images
 
@@ -169,66 +169,6 @@ class Header extends Component {
               </div>
 
               <LanguageDropdown />
-
-              {/* <Dropdown
-                isOpen={this.state.isSocialPf}
-                toggle={() =>
-                  this.setState({ isSocialPf: !this.state.isSocialPf })
-                }
-                className="d-none d-lg-inline-block ms-1"
-              >
-                <DropdownToggle
-                  tag="button"
-                  className="btn header-item noti-icon waves-effect"
-                >
-                  <i className="ri-apps-2-line"></i>
-                </DropdownToggle>
-                <DropdownMenu className="dropdown-menu-lg dropdown-menu-end">
-                  <div className="px-lg-2">
-                    <Row className="g-0">
-                      <Col>
-                        <Link className="dropdown-icon-item" to="#">
-                          <img src={github} alt="Github" />
-                          <span>{this.props.t("GitHub")}</span>
-                        </Link>
-                      </Col>
-                      <Col>
-                        <Link className="dropdown-icon-item" to="#">
-                          <img src={bitbucket} alt="bitbucket" />
-                          <span>{this.props.t("Bitbucket")}</span>
-                        </Link>
-                      </Col>
-                      <Col>
-                        <Link className="dropdown-icon-item" to="#">
-                          <img src={dribbble} alt="dribbble" />
-                          <span>{this.props.t("Dribbble")}</span>
-                        </Link>
-                      </Col>
-                    </Row>
-
-                    <Row className="g-0">
-                      <Col>
-                        <Link className="dropdown-icon-item" to="#">
-                          <img src={dropbox} alt="dropbox" />
-                          <span>{this.props.t("Dropbox")}</span>
-                        </Link>
-                      </Col>
-                      <Col>
-                        <Link className="dropdown-icon-item" to="#">
-                          <img src={mail_chimp} alt="mail_chimp" />
-                          <span>{this.props.t("Mail Chimp")}</span>
-                        </Link>
-                      </Col>
-                      <Col>
-                        <Link className="dropdown-icon-item" to="#">
-                          <img src={slack} alt="slack" />
-                          <span>{this.props.t("Slack")}</span>
-                        </Link>
-                      </Col>
-                    </Row>
-                  </div>
-                </DropdownMenu>
-              </Dropdown> */}
 
               <div className="dropdown d-none d-lg-inline-block ms-1">
                 <Button

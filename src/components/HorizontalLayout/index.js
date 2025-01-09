@@ -16,6 +16,7 @@ import Header from "./Header";
 // import Footer from "./Footer";
 import Rightbar from "../CommonForBoth/Rightbar";
 import withRouter from "../Common/withRouter";
+import { ToastContainer } from "react-toastify";
 
 class Layout extends Component {
   constructor(props) {
@@ -107,6 +108,17 @@ class Layout extends Component {
           </div>
         </div>
         <Rightbar />
+        <ToastContainer
+          position="top-right"
+          autoClose={250}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          theme="light"
+        />
       </React.Fragment>
     );
   }
