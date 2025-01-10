@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import { Link, useLocation } from "react-router-dom";
 import {
-  Button,
   Card,
   CardBody,
   Col,
@@ -239,32 +238,6 @@ const EcommerceProductDetail = () => {
                                     </div>
                                   </TabPane>
                                 </TabContent>
-                                <Row className="text-center mt-2">
-                                  <div className="col-sm-6">
-                                    <div className="d-grid">
-                                      <Button
-                                        type="button"
-                                        color="primary"
-                                        className="btn-block waves-effect waves-light mt-2 me-1"
-                                      >
-                                        <i className="uil uil-shopping-cart-alt me-2"></i>{" "}
-                                        Add to cart
-                                      </Button>
-                                    </div>
-                                  </div>
-                                  <div className="col-sm-6">
-                                    <div className="d-grid">
-                                      <Button
-                                        type="button"
-                                        color="light"
-                                        className="btn-block waves-effect  mt-2 waves-light"
-                                      >
-                                        <i className="uil uil-shopping-basket me-2"></i>
-                                        Buy now
-                                      </Button>
-                                    </div>
-                                  </div>
-                                </Row>
                               </Col>
                             </Row>
                           </div>
