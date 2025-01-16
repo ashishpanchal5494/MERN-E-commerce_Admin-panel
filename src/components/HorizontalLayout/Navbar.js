@@ -109,7 +109,7 @@ class Navbar extends Component {
                         "dropdown-menu mega-dropdown-menu px-2 dropdown-mega-menu-xl",
                         { show: this.state.uiState }
                       )}
-                      aria-labelledby="topnav-uielement"
+                      aria-labelledby="topnav-apps"
                     >
                       <Row>
                         <Col lg={4}>
@@ -198,8 +198,11 @@ class Navbar extends Component {
                       }}
                       className="nav-link dropdown-toggle arrow-none"
                       to="/#"
-                      id="topnav-apps"
+                      id="topnav-more"
                       role="button"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
                     >
                       <i className="ri-apps-2-line me-2"></i>
                       {this.props.t("Blogs")} <div className="arrow-down"></div>
@@ -239,8 +242,11 @@ class Navbar extends Component {
                       }}
                       className="nav-link dropdown-toggle arrow-none"
                       to="/#"
-                      id="topnav-apps"
+                      id="topnav-more"
                       role="button"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
                     >
                       <i className="ri-apps-2-line me-2"></i>
                       {this.props.t("Marketing")}{" "}

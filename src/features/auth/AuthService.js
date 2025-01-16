@@ -41,6 +41,18 @@ const getOrders = async () => {
   return data;
 };
 
+const updateOrder = async (data) => {
+  const response = await fetch(`${base_url}user/updateOrder/${data.id}`, {
+    method: "PUT",
+    body: JSON.stringify({ status: data.status }),
+    headers: {
+      ...config.headers,
+    },
+  });
+
+  return response.data;
+};
+
 // Get specific order by user ID function
 const getOrder = async (id) => {
   const response = await fetch(`${base_url}user/getorderbyuser/${id}`, {
@@ -86,6 +98,7 @@ const AuthService = {
   getOrders,
   getOrder,
   logout,
+  updateOrder,
 };
 
 export default AuthService;

@@ -58,12 +58,6 @@ const EcommerceEnquiry = () => {
 
       action: (
         <>
-          <Link
-            to={`/admin/enquiries/${enqState[i]._id}`}
-            className="me-3 text-primary"
-          >
-            <i className="mdi mdi-pencil font-size-18"></i>
-          </Link>
           <button
             className="ms-3 fs-3 text-danger bg-transparent border-0"
             onClick={() => showModal(enqState[i]._id)}
