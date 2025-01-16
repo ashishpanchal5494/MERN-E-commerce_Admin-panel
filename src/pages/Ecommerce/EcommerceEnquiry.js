@@ -5,7 +5,6 @@ import TableContainer from "../../components/Common/TableContainer";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import { Card, CardBody, Container } from "reactstrap";
 
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteAEnquiry,
