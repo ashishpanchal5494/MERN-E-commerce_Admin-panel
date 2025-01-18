@@ -1,137 +1,88 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useCallback } from "react";
 import TableContainer from "../../../components/Common/TableContainer";
-
-//Import Breadcrumb
 import Breadcrumbs from "../../../components/Common/Breadcrumb";
 import { Card, CardBody, Container } from "reactstrap";
-
 import { useDispatch, useSelector } from "react-redux";
 import { getOrders, updateAOrder } from "../../../features/auth/AuthSlice";
 import { Link } from "react-router-dom";
 
 const EcommerceOrders = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getOrders());
   }, [dispatch]);
-  const orderState = useSelector((state) => state.auth.orders.orders);
-  console.log(orderState);
 
-  const productId = orderState?.flatMap((item) =>
-    item?.orderItems?.map((product) => product.product)
+  const orderState = useSelector((state) => state.auth.orders.orders) || [];
+
+  const updateOrderStatus = useCallback(
+    (status, orderId, email) => {
+      dispatch(updateAOrder({ status, orderId, email }));
+    },
+    [dispatch]
   );
-  console.log(productId);
 
-  const data1 = [];
-  for (let i = 0; i < orderState?.length; i++) {
-    data1.push({
-      key: i + 1,
-      orderId: orderState[i]._id,
-      date: new Date(orderState[i]?.createdAt).toLocaleString(),
-      product: (
-        <>
-          {orderState[i]?.orderItems?.map((item, index) => (
-            <div key={index}>
-              <Link to={`/ecommerce-product-detail/${item?.product}`}>
-                View Product
-              </Link>
-            </div>
-          ))}
-        </>
-      ),
-      billingName:
-        orderState[i]?.user?.firstname + " " + orderState[i]?.user?.lastname,
-      amount: orderState[i]?.totalPrice,
-      status: (
-        <>
+  const data = useMemo(
+    () =>
+      orderState.map((order, index) => ({
+        key: index + 1,
+        orderId: order._id,
+        date: new Date(order.createdAt).toLocaleString(),
+        product: order.orderItems?.map((item, idx) => (
+          <div key={idx}>
+            <Link to={`/ecommerce-product-detail/${item.product}`}>
+              View Product
+            </Link>
+          </div>
+        )),
+        billingName: `${order.user?.firstname || ""} ${
+          order.user?.lastname || ""
+        }`.trim(),
+        amount: `₹${order.totalPrice?.toFixed(2)}`,
+        status: (
           <select
-            name=""
-            defaultValue={orderState[i]?.orderStatus}
+            defaultValue={order.orderStatus}
             className="form-control form-select"
-            id=""
             onChange={(e) =>
-              updateOrderStatus(
-                e.target.value,
-                orderState[i]?._id,
-                orderState[i]?.user?.email
-              )
+              updateOrderStatus(e.target.value, order._id, order.user?.email)
             }
           >
-            <option value="Ordered" disabled>
-              Ordered
-            </option>
-            <option value="Processed">Processed</option>
-            <option value="Shipped">Shipped</option>
-            <option value="Out For Delivery">Out For Delivery</option>
-            <option value="Delivered">Delivered</option>
+            {[
+              "Ordered",
+              "Processed",
+              "Shipped",
+              "Out For Delivery",
+              "Delivered",
+            ].map((status) => (
+              <option
+                key={status}
+                value={status}
+                disabled={status === "Ordered"}
+              >
+                {status}
+              </option>
+            ))}
           </select>
-        </>
-      ),
-    });
-  }
-
-  const updateOrderStatus = (status, orderId, email) => {
-    const data = { status, orderId, email };
-    console.log(data);
-    dispatch(updateAOrder(data));
-  };
+        ),
+        invoice: (
+          <button className="btn btn-light btn-rounded">
+            Invoice <i className="mdi mdi-download ms-2"></i>
+          </button>
+        ),
+      })),
+    [orderState, updateOrderStatus]
+  );
 
   const columns = useMemo(
     () => [
-      {
-        Header: "ID",
-        accessor: "key",
-        disableFilters: true,
-        filterable: false,
-      },
-      {
-        Header: "Order ID",
-        accessor: "orderId",
-        disableFilters: true,
-        filterable: false,
-      },
-      {
-        Header: "Date",
-        accessor: "date",
-        disableFilters: true,
-        filterable: false,
-      },
-      {
-        Header: "Product View",
-        accessor: "product",
-        disableFilters: true,
-        filterable: false,
-      },
-      {
-        Header: "Billing Name",
-        accessor: "billingName",
-        disableFilters: true,
-        filterable: false,
-      },
-      {
-        Header: "Total",
-        accessor: "amount",
-        disableFilters: true,
-        filterable: false,
-      },
-      {
-        Header: "Payment Status",
-        disableFilters: true,
-        filterable: true,
-        accessor: "status",
-      },
-      {
-        Header: "Invoice",
-        accessor: (cellProps) => {
-          return (
-            <button className="btn btn-light btn-rounded">
-              Invoice <i className="mdi mdi-download ms-2"></i>
-            </button>
-          );
-        },
-        disableFilters: true,
-        filterable: false,
-      },
+      { Header: "ID", accessor: "key" },
+      { Header: "Order ID", accessor: "orderId" },
+      { Header: "Date", accessor: "date" },
+      { Header: "Product View", accessor: "product" },
+      { Header: "Billing Name", accessor: "billingName" },
+      { Header: "Total", accessor: "amount" },
+      { Header: "Payment Status", accessor: "status" },
+      { Header: "Invoice", accessor: "invoice" },
     ],
     []
   );
@@ -142,29 +93,25 @@ const EcommerceOrders = () => {
   ];
 
   return (
-    <React.Fragment>
-      <div className="page-content">
-        <Container fluid>
-          <Breadcrumbs title="Orders" breadcrumbItems={breadcrumbItems} />
-          <Card>
-            <CardBody>
-              <TableContainer
-                columns={columns || []}
-                data={data1 || []}
-                isPagination={false}
-                isGlobalFilter={false}
-                iscustomPageSize={false}
-                isBordered={false}
-                customPageSize={10}
-                className="custom-header-css table align-middle table-nowrap"
-                tableClassName="table-centered align-middle table-nowrap mb-0"
-                theadClassName="text-muted table-light"
-              />
-            </CardBody>
-          </Card>
-        </Container>
-      </div>
-    </React.Fragment>
+    <div className="page-content">
+      <Container fluid>
+        <Breadcrumbs title="Orders" breadcrumbItems={breadcrumbItems} />
+        <Card>
+          <CardBody>
+            <TableContainer
+              columns={columns}
+              data={data}
+              isPagination={true}
+              isGlobalFilter={true}
+              customPageSize={10}
+              className="custom-header-css table align-middle table-nowrap"
+              tableClassName="table-centered align-middle table-nowrap mb-0"
+              theadClassName="text-muted table-light"
+            />
+          </CardBody>
+        </Card>
+      </Container>
+    </div>
   );
 };
 

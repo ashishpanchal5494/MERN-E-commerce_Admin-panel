@@ -12,7 +12,12 @@ import withRouter from "../Common/withRouter";
 class Navbar extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      blogState: false,
+      marketingState: false,
+      pagesState: false,
+      uiState: false,
+    };
   }
 
   componentDidUpdate(prevProps) {
@@ -36,25 +41,53 @@ class Navbar extends Component {
     }
   }
 
+  handleMenuClose = () => {
+    this.setState({ uiState: false }); // Close the E-commerce menu
+    if (this.props.menuOpen) {
+      this.props.toggleMenu(); // Assuming you have a function to toggle the main menu
+    }
+  };
+
+  handleBlogMenuClose = () => {
+    this.setState({ blogState: false }); // Close the E-commerce menu
+    if (this.props.menuOpen) {
+      this.props.toggleMenu(); // Assuming you have a function to toggle the main menu
+    }
+  };
+
+  handleMarketMenuClose = () => {
+    this.setState({ marketingState: false }); // Close the E-commerce menu
+    if (this.props.menuOpen) {
+      this.props.toggleMenu(); // Assuming you have a function to toggle the main menu
+    }
+  };
+
+  handlePageMenuClose = () => {
+    this.setState({ pagesState: false }); // Close the E-commerce menu
+    if (this.props.menuOpen) {
+      this.props.toggleMenu(); // Assuming you have a function to toggle the main menu
+    }
+  };
+
   activateParentDropdown = (item) => {
     item.classList.add("active");
     const parent = item.parentElement;
     if (parent) {
-      parent.classList.add("active"); // li
+      parent.classList.add("active");
       const parent2 = parent.parentElement;
-      parent2.classList.add("active"); // li
+      parent2.classList.add("active");
       const parent3 = parent2.parentElement;
       if (parent3) {
-        parent3.classList.add("active"); // li
+        parent3.classList.add("active");
         const parent4 = parent3.parentElement;
         if (parent4) {
-          parent4.classList.add("active"); // li
+          parent4.classList.add("active");
           const parent5 = parent4.parentElement;
           if (parent5) {
-            parent5.classList.add("active"); // li
+            parent5.classList.add("active");
             const parent6 = parent5.parentElement;
             if (parent6) {
-              parent6.classList.add("active"); // li
+              parent6.classList.add("active");
             }
           }
         }
@@ -117,30 +150,35 @@ class Navbar extends Component {
                             <Link
                               to="/ecommerce-products"
                               className="dropdown-item"
+                              onClick={this.handleMenuClose}
                             >
                               {this.props.t("Products")}
                             </Link>
                             <Link
                               to="/ecommerce-add-product"
                               className="dropdown-item"
+                              onClick={this.handleMenuClose}
                             >
                               {this.props.t("Add Product")}
                             </Link>
                             <Link
-                              to="/ecommerce-product-List"
+                              to="/ecommerce-product-list"
                               className="dropdown-item"
+                              onClick={this.handleMenuClose}
                             >
                               {this.props.t("Product List")}
                             </Link>
                             <Link
                               to="/ecommerce-add-brand"
                               className="dropdown-item"
+                              onClick={this.handleMenuClose}
                             >
                               {this.props.t("Brand")}
                             </Link>
                             <Link
                               to="/ecommerce-brand-list"
                               className="dropdown-item"
+                              onClick={this.handleMenuClose}
                             >
                               {this.props.t("Brand-List")}
                             </Link>
@@ -151,36 +189,42 @@ class Navbar extends Component {
                             <Link
                               to="/ecommerce-add-category"
                               className="dropdown-item"
+                              onClick={this.handleMenuClose}
                             >
                               {this.props.t("Category")}
                             </Link>
                             <Link
                               to="/ecommerce-category-list"
                               className="dropdown-item"
+                              onClick={this.handleMenuClose}
                             >
                               {this.props.t("Category List")}
                             </Link>
                             <Link
                               to="/ecommerce-add-color"
                               className="dropdown-item"
+                              onClick={this.handleMenuClose}
                             >
                               {this.props.t("Color")}
                             </Link>
                             <Link
                               to="/ecommerce-color-list"
                               className="dropdown-item"
+                              onClick={this.handleMenuClose}
                             >
                               {this.props.t("Color List")}
                             </Link>
                             <Link
                               to="/ecommerce-orders"
                               className="dropdown-item"
+                              onClick={this.handleMenuClose}
                             >
                               {this.props.t("Orders")}
                             </Link>
                             <Link
                               to="/ecommerce-customers"
                               className="dropdown-item"
+                              onClick={this.handleMenuClose}
                             >
                               {this.props.t("Customers")}
                             </Link>
@@ -194,11 +238,11 @@ class Navbar extends Component {
                     <Link
                       onClick={(e) => {
                         e.preventDefault();
-                        this.setState({ appState: !this.state.appState });
+                        this.setState({ blogState: !this.state.blogState });
                       }}
                       className="nav-link dropdown-toggle arrow-none"
                       to="/#"
-                      id="topnav-more"
+                      id="topnav-blogs"
                       role="button"
                       data-toggle="dropdown"
                       aria-haspopup="true"
@@ -209,25 +253,34 @@ class Navbar extends Component {
                     </Link>
                     <div
                       className={classname("dropdown-menu dropdown-menu-end", {
-                        show: this.state.appState,
+                        show: this.state.blogState,
                       })}
-                      aria-labelledby="topnav-apps"
                     >
-                      <Link to="/ecommerce-add-blog" className="dropdown-item">
+                      <Link
+                        to="/ecommerce-add-blog"
+                        className="dropdown-item"
+                        onClick={this.handleBlogMenuClose}
+                      >
                         {this.props.t("Add Blog")}
                       </Link>
-                      <Link to="/ecommerce-blog-list" className="dropdown-item">
+                      <Link
+                        to="/ecommerce-blog-list"
+                        className="dropdown-item"
+                        onClick={this.handleBlogMenuClose}
+                      >
                         {this.props.t("Blog List")}
                       </Link>
                       <Link
                         to="/ecommerce-add-blog-category"
                         className="dropdown-item"
+                        onClick={this.handleBlogMenuClose}
                       >
                         {this.props.t("Add Blog Category")}
                       </Link>
                       <Link
                         to="/ecommerce-blog-category-list"
                         className="dropdown-item"
+                        onClick={this.handleBlogMenuClose}
                       >
                         {this.props.t("Blog Cartegory List")}
                       </Link>
@@ -238,11 +291,13 @@ class Navbar extends Component {
                     <Link
                       onClick={(e) => {
                         e.preventDefault();
-                        this.setState({ appState: !this.state.appState });
+                        this.setState({
+                          marketingState: !this.state.marketingState,
+                        });
                       }}
                       className="nav-link dropdown-toggle arrow-none"
                       to="/#"
-                      id="topnav-more"
+                      id="topnav-marketing"
                       role="button"
                       data-toggle="dropdown"
                       aria-haspopup="true"
@@ -254,19 +309,20 @@ class Navbar extends Component {
                     </Link>
                     <div
                       className={classname("dropdown-menu dropdown-menu-end", {
-                        show: this.state.appState,
+                        show: this.state.marketingState,
                       })}
-                      aria-labelledby="topnav-apps"
                     >
                       <Link
                         to="/ecommerce-add-coupon"
                         className="dropdown-item"
+                        onClick={this.handleMarketMenuClose}
                       >
                         {this.props.t("Add Coupon")}
                       </Link>
                       <Link
                         to="/ecommerce-coupon-list"
                         className="dropdown-item"
+                        onClick={this.handleMarketMenuClose}
                       >
                         {this.props.t("Coupon List")}
                       </Link>
@@ -284,35 +340,45 @@ class Navbar extends Component {
                     <Link
                       onClick={(e) => {
                         e.preventDefault();
-                        this.setState({ extraState: !this.state.extraState });
+                        this.setState({ pagesState: !this.state.pagesState });
                       }}
                       className="nav-link dropdown-toggle arrow-none"
                       to="/#"
-                      id="topnav-more"
-                      role="button"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
                     >
                       <i className="ri-file-copy-2-line me-2"></i>
                       {this.props.t("Pages")} <div className="arrow-down"></div>
                     </Link>
                     <div
                       className={classname("dropdown-menu dropdown-menu-end", {
-                        show: this.state.appState,
+                        show: this.state.pagesState,
                       })}
-                      aria-labelledby="topnav-apps"
                     >
-                      <Link to="/login" className="dropdown-item">
+                      <Link
+                        to="/login"
+                        className="dropdown-item"
+                        onClick={this.handlePageMenuClose}
+                      >
                         {this.props.t("Login")}
                       </Link>
-                      <Link to="/register" className="dropdown-item">
+                      <Link
+                        to="/register"
+                        className="dropdown-item"
+                        onClick={this.handlePageMenuClose}
+                      >
                         {this.props.t("Register")}
                       </Link>
-                      <Link to="/forgot-password" className="dropdown-item">
+                      <Link
+                        to="/forgot-password"
+                        className="dropdown-item"
+                        onClick={this.handlePageMenuClose}
+                      >
                         {this.props.t("Recover Password")}
                       </Link>
-                      <Link to="/lock-screen" className="dropdown-item">
+                      <Link
+                        to="/lock-screen"
+                        className="dropdown-item"
+                        onClick={this.handlePageMenuClose}
+                      >
                         {this.props.t("Lock Screen")}
                       </Link>
                     </div>
@@ -327,11 +393,4 @@ class Navbar extends Component {
   }
 }
 
-const mapStatetoProps = (state) => {
-  const { leftSideBarType, leftSideBarTheme } = state.Layout;
-  return { leftSideBarType, leftSideBarTheme };
-};
-
-export default withRouter(
-  connect(mapStatetoProps, {})(withTranslation()(Navbar))
-);
+export default withRouter(connect(null, {})(withTranslation()(Navbar)));

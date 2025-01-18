@@ -37,6 +37,7 @@ const Login = () => {
   useEffect(() => {
     if (isSuccess) {
       navigate("/dashboard");
+      window.location.reload();
     } else {
       navigate("");
     }

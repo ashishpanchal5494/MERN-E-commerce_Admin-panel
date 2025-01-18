@@ -2,6 +2,7 @@
 // _horizontal.scss
 // 
 
+
 .topnav {
     background: var(--#{$prefix}topnav-bg);
     padding: 0 calc(#{$grid-gutter-width} / 2);
@@ -31,21 +32,10 @@
                 vertical-align: middle;
                 display: inline-block;
             }
-
-            &:focus,
-            &:hover {
-                color: $menu-item-active-color;
-                background-color: transparent;
-            }
         }
 
         .dropdown-item {
             color: $menu-item-color;
-
-            &.active,
-            &:hover {
-                color: $menu-item-active-color;
-            }
         }
 
         .nav-item {
@@ -95,8 +85,6 @@
 
         .dropdown {
             &.mega-dropdown {
-
-                // position: static;
                 .mega-dropdown-menu {
                     left: 0px;
                     right: auto;
@@ -125,14 +113,12 @@
                 }
             }
 
-            &:hover {
-                >.dropdown-menu {
-                    display: block;
-                }
+            &.active > .dropdown-menu {
+                display: block;
             }
         }
 
-        .dropdown:hover>.dropdown-menu>.dropdown:hover>.dropdown-menu {
+        .dropdown.active > .dropdown-menu > .dropdown.active > .dropdown-menu {
             display: block
         }
     }
@@ -161,7 +147,6 @@
         width: .4em;
     }
 }
-
 
 @include media-breakpoint-down(xl) {
     .topnav-menu {
@@ -243,7 +228,6 @@
     }
 }
 
-
 @include media-breakpoint-up(lg) {
 
     body[data-layout="horizontal"][data-topbar="light"] {
@@ -264,11 +248,6 @@
 
                 .nav-link {
                     color: rgba($white, 0.6);
-
-                    &:focus,
-                    &:hover {
-                        color: rgba($white, 0.9);
-                    }
                 }
 
                 >.dropdown {
