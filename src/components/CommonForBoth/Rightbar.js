@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { FormGroup, Label, Input } from "reactstrap";
-import { withRouter } from "react-router-dom";
+
 import { connect } from "react-redux";
 import {
   hideRightSidebar,
@@ -81,11 +81,7 @@ class RightSidebar extends Component {
    * Change the layout
    * @param {*} e
    */
-  changeLayout(e) {
-    if (e.target.checked) {
-      this.props.changeLayout(e.target.value);
-    }
-  }
+ 
 
   /**
    * Changes layout width
