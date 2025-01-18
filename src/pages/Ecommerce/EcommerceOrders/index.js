@@ -8,7 +8,6 @@ import { Card, CardBody, Container } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrders, updateAOrder } from "../../../features/auth/AuthSlice";
 import { Link } from "react-router-dom";
-import { DayTableModel } from "@fullcalendar/core/internal";
 
 const EcommerceOrders = () => {
   const dispatch = useDispatch();
