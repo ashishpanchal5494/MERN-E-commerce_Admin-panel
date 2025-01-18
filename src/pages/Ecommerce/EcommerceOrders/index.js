@@ -8,6 +8,7 @@ import { Card, CardBody, Container } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrders, updateAOrder } from "../../../features/auth/AuthSlice";
 import { Link } from "react-router-dom";
+import { DayTableModel } from "@fullcalendar/core/internal";
 
 const EcommerceOrders = () => {
   const dispatch = useDispatch();
@@ -50,7 +51,11 @@ const EcommerceOrders = () => {
             className="form-control form-select"
             id=""
             onChange={(e) =>
-              updateOrderStatus(e.target.value, orderState[i]?._id)
+              updateOrderStatus(
+                e.target.value,
+                orderState[i]?._id,
+                orderState[i]?.user?.email
+              )
             }
           >
             <option value="Ordered" disabled>
@@ -66,8 +71,10 @@ const EcommerceOrders = () => {
     });
   }
 
-  const updateOrderStatus = (status, orderId) => {
-    dispatch(updateAOrder({ id: orderId, status }));
+  const updateOrderStatus = (status, orderId, email) => {
+    const data = { status, orderId, email };
+    console.log(data);
+    dispatch(updateAOrder(data));
   };
 
   const columns = useMemo(

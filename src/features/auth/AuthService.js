@@ -42,15 +42,20 @@ const getOrders = async () => {
 };
 
 const updateOrder = async (data) => {
-  const response = await fetch(`${base_url}user/updateOrder/${data.id}`, {
+  const response = await fetch(`${base_url}user/updateOrder/${data.orderId}`, {
     method: "PUT",
-    body: JSON.stringify({ status: data.status }),
     headers: {
+      "Content-Type": "application/json",
       ...config.headers,
     },
+    body: JSON.stringify({ status: data.status, email: data.email }),
   });
 
-  return response.data;
+  if (!response.ok) {
+    throw new Error("Failed to update order status");
+  }
+
+  return await response.json();
 };
 
 // Get specific order by user ID function
