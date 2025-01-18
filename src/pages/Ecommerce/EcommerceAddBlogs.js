@@ -87,6 +87,7 @@ const EcommerceAddBlog = () => {
       } else {
         dispatch(createBlogs(values));
         formik.resetForm();
+        dispatch(delImg());
         setTimeout(() => {
           dispatch(resetState());
         }, 300);

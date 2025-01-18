@@ -104,6 +104,7 @@ const EcommerceAddProduct = () => {
       dispatch(createProducts(values));
       formik.resetForm();
       setColor([]);
+      dispatch(delImg());
       setTimeout(() => {
         dispatch(resetState());
       }, 3000);

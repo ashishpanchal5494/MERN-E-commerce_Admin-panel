@@ -7,6 +7,7 @@ import { Card, CardBody, Container } from "reactstrap";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getOrders, updateAOrder } from "../../../features/auth/AuthSlice";
+import { Link } from "react-router-dom";
 
 const EcommerceOrders = () => {
   const dispatch = useDispatch();
@@ -16,14 +17,30 @@ const EcommerceOrders = () => {
   const orderState = useSelector((state) => state.auth.orders.orders);
   console.log(orderState);
 
+  const productId = orderState?.flatMap((item) =>
+    item?.orderItems?.map((product) => product.product)
+  );
+  console.log(productId);
+
   const data1 = [];
   for (let i = 0; i < orderState?.length; i++) {
     data1.push({
       key: i + 1,
       orderId: orderState[i]._id,
       date: new Date(orderState[i]?.createdAt).toLocaleString(),
+      product: (
+        <>
+          {orderState[i]?.orderItems?.map((item, index) => (
+            <div key={index}>
+              <Link to={`/ecommerce-product-detail/${item?.product}`}>
+                View Product
+              </Link>
+            </div>
+          ))}
+        </>
+      ),
       billingName:
-        orderState[i]?.user?.firstname + orderState[i]?.user?.lastname,
+        orderState[i]?.user?.firstname + " " + orderState[i]?.user?.lastname,
       amount: orderState[i]?.totalPrice,
       status: (
         <>
@@ -36,10 +53,9 @@ const EcommerceOrders = () => {
               updateOrderStatus(e.target.value, orderState[i]?._id)
             }
           >
-            <option value="Ordered" disabled selected>
+            <option value="Ordered" disabled>
               Ordered
             </option>
-
             <option value="Processed">Processed</option>
             <option value="Shipped">Shipped</option>
             <option value="Out For Delivery">Out For Delivery</option>
@@ -50,10 +66,8 @@ const EcommerceOrders = () => {
     });
   }
 
-  const updateOrderStatus = (a, b) => {
-    console.log(a, b);
-    const data = { id: b, status: a };
-    dispatch(updateAOrder(data));
+  const updateOrderStatus = (status, orderId) => {
+    dispatch(updateAOrder({ id: orderId, status }));
   };
 
   const columns = useMemo(
@@ -73,6 +87,12 @@ const EcommerceOrders = () => {
       {
         Header: "Date",
         accessor: "date",
+        disableFilters: true,
+        filterable: false,
+      },
+      {
+        Header: "Product View",
+        accessor: "product",
         disableFilters: true,
         filterable: false,
       },
