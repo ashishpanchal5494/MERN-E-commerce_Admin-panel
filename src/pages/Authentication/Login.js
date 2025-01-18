@@ -147,7 +147,7 @@ const Login = () => {
                                 className="w-md waves-effect waves-light"
                                 type="submit"
                               >
-                                Log In
+                                {isLoading ? "Loging In" : "Log In"}
                               </Button>
                             </div>
 
