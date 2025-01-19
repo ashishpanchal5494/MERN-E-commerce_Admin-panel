@@ -83,9 +83,11 @@ const EcommerceAddBlog = () => {
       if (getBlogId !== undefined) {
         const data = { id: getBlogId, blogData: values };
         dispatch(updateABlog(data));
+        dispatch(delImg());
         dispatch(resetState());
       } else {
         dispatch(createBlogs(values));
+        window.location.reload();
         formik.resetForm();
         dispatch(delImg());
         setTimeout(() => {

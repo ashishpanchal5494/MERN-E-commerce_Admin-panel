@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import TableContainer from "../../components/Common/TableContainer";
-import { Link } from "react-router-dom";
+
 // Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import { Card, CardBody, Container } from "reactstrap";
@@ -105,12 +105,6 @@ const EcommerceProductList = () => {
       price: `${product.price}`,
       action: (
         <>
-          <Link
-            to={`/ecommerce-add-product/${product._id}`}
-            className="me-3 text-primary"
-          >
-            <i className="mdi mdi-pencil font-size-18"></i>
-          </Link>
           <button
             onClick={() => showModal(product._id)}
             className="ms-3 fs-3 text-danger bg-transparent border-0"

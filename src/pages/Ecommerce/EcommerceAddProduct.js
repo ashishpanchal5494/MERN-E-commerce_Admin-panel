@@ -102,6 +102,7 @@ const EcommerceAddProduct = () => {
     validationSchema: schema,
     onSubmit: (values) => {
       dispatch(createProducts(values));
+      window.location.reload();
       formik.resetForm();
       setColor([]);
       dispatch(delImg());
