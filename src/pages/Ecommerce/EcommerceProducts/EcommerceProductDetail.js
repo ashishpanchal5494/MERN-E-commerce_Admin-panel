@@ -27,6 +27,7 @@ import StarRatings from "react-star-ratings";
 // Import Reviews
 import { useDispatch } from "react-redux";
 import { getAProduct } from "../../../features/product/ProductSlice";
+import Color from "../../../components/Common/Color";
 
 const EcommerceProductDetail = () => {
   const dispatch = useDispatch();
@@ -111,17 +112,21 @@ const EcommerceProductDetail = () => {
                                         toggleTab("1");
                                       }}
                                     >
-                                      <img
-                                        src={getProductDetail?.images[0]?.url}
-                                        alt=""
-                                        onClick={() => {
-                                          imageShow(
-                                            getProductDetail?.images[0]?.url,
-                                            1
-                                          );
-                                        }}
-                                        className="img-fluid mx-auto d-block tab-img rounded"
-                                      />
+                                      {getProductDetail.images?.length > 0 ? (
+                                        <img
+                                          src={getProductDetail?.images[0]?.url}
+                                          alt="product"
+                                          onClick={() => {
+                                            imageShow(
+                                              getProductDetail?.images[0]?.url,
+                                              1
+                                            );
+                                          }}
+                                          className="img-fluid mx-auto d-block tab-img rounded"
+                                        />
+                                      ) : (
+                                        <p>No images available.</p>
+                                      )}
                                     </NavLink>
                                   </NavItem>
                                   <NavItem>
@@ -133,17 +138,21 @@ const EcommerceProductDetail = () => {
                                         toggleTab("2");
                                       }}
                                     >
-                                      <img
-                                        src={getProductDetail?.images[1]?.url}
-                                        alt=""
-                                        onClick={() => {
-                                          imageShow(
-                                            getProductDetail?.images[1]?.url,
-                                            2
-                                          );
-                                        }}
-                                        className="img-fluid mx-auto d-block tab-img rounded"
-                                      />
+                                      {getProductDetail.images?.length > 0 ? (
+                                        <img
+                                          src={getProductDetail?.images[1]?.url}
+                                          alt="product"
+                                          onClick={() => {
+                                            imageShow(
+                                              getProductDetail?.images[1]?.url,
+                                              2
+                                            );
+                                          }}
+                                          className="img-fluid mx-auto d-block tab-img rounded"
+                                        />
+                                      ) : (
+                                        <p>No images available.</p>
+                                      )}
                                     </NavLink>
                                   </NavItem>
                                   <NavItem>
@@ -155,17 +164,21 @@ const EcommerceProductDetail = () => {
                                         toggleTab("3");
                                       }}
                                     >
-                                      <img
-                                        src={getProductDetail?.images[2]?.url}
-                                        alt=""
-                                        onClick={() => {
-                                          imageShow(
-                                            getProductDetail?.images[2]?.url,
-                                            3
-                                          );
-                                        }}
-                                        className="img-fluid mx-auto d-block tab-img rounded"
-                                      />
+                                      {getProductDetail.images?.length > 0 ? (
+                                        <img
+                                          src={getProductDetail?.images[2]?.url}
+                                          alt="product"
+                                          onClick={() => {
+                                            imageShow(
+                                              getProductDetail?.images[2]?.url,
+                                              3
+                                            );
+                                          }}
+                                          className="img-fluid mx-auto d-block tab-img rounded"
+                                        />
+                                      ) : (
+                                        <p>No images available.</p>
+                                      )}
                                     </NavLink>
                                   </NavItem>
                                   <NavItem>
@@ -177,17 +190,21 @@ const EcommerceProductDetail = () => {
                                         toggleTab("4");
                                       }}
                                     >
-                                      <img
-                                        src={getProductDetail?.images[3]?.url}
-                                        alt=""
-                                        onClick={() => {
-                                          imageShow(
-                                            getProductDetail?.images[3]?.url,
-                                            4
-                                          );
-                                        }}
-                                        className="img-fluid mx-auto d-block tab-img rounded"
-                                      />
+                                      {getProductDetail.images?.length > 0 ? (
+                                        <img
+                                          src={getProductDetail?.images[3]?.url}
+                                          alt="product"
+                                          onClick={() => {
+                                            imageShow(
+                                              getProductDetail?.images[3]?.url,
+                                              4
+                                            );
+                                          }}
+                                          className="img-fluid mx-auto d-block tab-img rounded"
+                                        />
+                                      ) : (
+                                        <p>No images available.</p>
+                                      )}
                                     </NavLink>
                                   </NavItem>
                                 </Nav>
@@ -199,42 +216,58 @@ const EcommerceProductDetail = () => {
                                 >
                                   <TabPane tabId="1">
                                     <div className="product-img">
-                                      <img
-                                        src={getProductDetail?.images[0]?.url}
-                                        alt=""
-                                        id="expandedImg1"
-                                        className="img-fluid mx-auto d-block"
-                                      />
+                                      {getProductDetail.images?.length > 0 ? (
+                                        <img
+                                          src={getProductDetail?.images[0]?.url}
+                                          id="expandedImg1"
+                                          alt=""
+                                          className="img-fluid mx-auto d-block"
+                                        />
+                                      ) : (
+                                        <p>No images available.</p>
+                                      )}
                                     </div>
                                   </TabPane>
                                   <TabPane tabId="2">
                                     <div className="product-img">
-                                      <img
-                                        src={getProductDetail?.images[1]?.url}
-                                        id="expandedImg2"
-                                        alt=""
-                                        className="img-fluid mx-auto d-block"
-                                      />
+                                      {getProductDetail.images?.length > 0 ? (
+                                        <img
+                                          src={getProductDetail?.images[1]?.url}
+                                          id="expandedImg2"
+                                          alt=""
+                                          className="img-fluid mx-auto d-block"
+                                        />
+                                      ) : (
+                                        <p>No images available.</p>
+                                      )}
                                     </div>
                                   </TabPane>
                                   <TabPane tabId="3">
                                     <div className="product-img">
-                                      <img
-                                        src={getProductDetail?.images[0]?.url}
-                                        id="expandedImg3"
-                                        alt=""
-                                        className="img-fluid mx-auto d-block"
-                                      />
+                                      {getProductDetail.images?.length > 0 ? (
+                                        <img
+                                          src={getProductDetail?.images[2]?.url}
+                                          id="expandedImg3"
+                                          alt=""
+                                          className="img-fluid mx-auto d-block"
+                                        />
+                                      ) : (
+                                        <p>No images available.</p>
+                                      )}
                                     </div>
                                   </TabPane>
                                   <TabPane tabId="4">
                                     <div className="product-img">
-                                      <img
-                                        src={getProductDetail?.images[0]?.url}
-                                        id="expandedImg4"
-                                        alt=""
-                                        className="img-fluid mx-auto d-block"
-                                      />
+                                      {getProductDetail.images?.length > 0 ? (
+                                        <img
+                                          src={getProductDetail?.images[3]?.url}
+                                          id="expandedImg3"
+                                          alt=""
+                                          className="img-fluid mx-auto d-block"
+                                        />
+                                      ) : (
+                                        <p>No images available.</p>
+                                      )}
                                     </div>
                                   </TabPane>
                                 </TabContent>
@@ -246,10 +279,10 @@ const EcommerceProductDetail = () => {
                         <Col xl="7">
                           <div className="mt-4 mt-xl-3">
                             <Link to="#" className="text-primary">
-                              {getProductDetail.category}
+                              {getProductDetail?.brand}
                             </Link>
                             <h5 className="mt-1 mb-3">
-                              {getProductDetail.title}
+                              {getProductDetail?.title}
                             </h5>
 
                             <div className="d-inline-flex">
@@ -273,17 +306,31 @@ const EcommerceProductDetail = () => {
                               {/* <del className="text-muted me-2">
                                 ${product.oldprice}
                               </del> */}
-                              ₹{getProductDetail.price}
+                              ₹{getProductDetail?.price}
                               {/* {!product.isOffer && (
                                 <span className="text-danger font-size-12 ms-2">
                                   {product.offer} % Off
                                 </span>
                               )} */}
                             </h5>
+                            <Row>
+                              <Col md="6">
+                                <div className="d-flex flex-wrap">
+                                  <div className="  w-auto">
+                                    <div className="d-flex gap-10 flex-column mt-2 ">
+                                      <h3 className="font-size-14">Color :</h3>
+                                      <Color
+                                        colorData={getProductDetail?.color}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </Col>
+                            </Row>
 
                             <p
                               dangerouslySetInnerHTML={{
-                                __html: getProductDetail.description,
+                                __html: getProductDetail?.description,
                               }}
                               className="mt-3"
                             ></p>
@@ -312,105 +359,6 @@ const EcommerceProductDetail = () => {
                                       </button>
                                     </div>
                                   </div>
-
-                                  <h5 className="font-size-14">
-                                    Specification :
-                                  </h5>
-                                  <ul className="list-unstyled product-desc-list">
-                                    {/* {product.shortspecifications &&
-                                      product.shortspecifications.map(
-                                        (item, i) => (
-                                          <li key={i}>
-                                            <i className="mdi mdi-circle-medium me-1 align-middle"></i>{" "}
-                                            {item}
-                                          </li>
-                                        )
-                                      )} */}
-                                  </ul>
-                                </div>
-                              </Col>
-
-                              <Col md="6">
-                                <h5 className="font-size-14">Services :</h5>
-                                {/* <ul className="list-unstyled product-desc-list">
-                                  {product.shortservices &&
-                                    product.shortservices.map((item, i) => (
-                                      <li key={i}>
-                                        <i
-                                          className={
-                                            "mdi " +
-                                            item.icon +
-                                            " text-primary me-1 font-size-16"
-                                          }
-                                        ></i>{" "}
-                                        {item.value}
-                                      </li>
-                                    ))}
-                                </ul> */}
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col sm="6">
-                                {/* <div className="product-color">
-                                  <h5 className="font-size-15">Color :</h5>
-                                  {product.colorOptions &&
-                                    product.colorOptions.map((option, i) => (
-                                      <Link
-                                        to="#"
-                                        className={i === 0 ? "active" : ""}
-                                        key={i}
-                                      >
-                                        <div className="product-color-item">
-                                          <img
-                                            src={option.image}
-                                            alt=""
-                                            className="avatar-md"
-                                          />
-                                        </div>
-                                        <p>{option.color}</p>
-                                      </Link>
-                                    ))}
-                                </div> */}
-                              </Col>
-                              <Col sm="6">
-                                <div className="product-color mt-3">
-                                  <h5 className="font-size-14">Size :</h5>
-                                  <Link to="#" className="active">
-                                    <div className="product-color-item">
-                                      <div className="avatar-xs">
-                                        <span className="avatar-title bg-transparent text-body">
-                                          S
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </Link>
-                                  <Link to="#">
-                                    <div className="product-color-item">
-                                      <div className="avatar-xs">
-                                        <span className="avatar-title bg-transparent text-body">
-                                          M
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </Link>
-                                  <Link to="#">
-                                    <div className="product-color-item">
-                                      <div className="avatar-xs">
-                                        <span className="avatar-title bg-transparent text-body">
-                                          L
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </Link>
-                                  <Link to="#">
-                                    <div className="product-color-item">
-                                      <div className="avatar-xs">
-                                        <span className="avatar-title bg-transparent text-body">
-                                          XL
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </Link>
                                 </div>
                               </Col>
                             </Row>
@@ -490,31 +438,12 @@ const EcommerceProductDetail = () => {
                             </TabPane>
                             <TabPane tabId="specifications">
                               <div className="table-responsive">
-                                <Table className="table-nowrap mb-0">
-                                  {/* <tbody>
-                                    {product.specification &&
-                                      product.specification.map(
-                                        (specification, i) => (
-                                          <tr key={i}>
-                                            <th
-                                              scope="row"
-                                              style={{ width: "20%" }}
-                                            >
-                                              {specification.type}
-                                            </th>
-                                            <td>{specification.value}</td>
-                                          </tr>
-                                        )
-                                      )}
-                                  </tbody> */}
-                                </Table>
+                                <Table className="table-nowrap mb-0"></Table>
                               </div>
                             </TabPane>
                           </TabContent>
                         </div>
                       </div>
-
-                      {/* <Reviews comments={product.comments} /> */}
                     </CardBody>
                   </Card>
                 </Col>

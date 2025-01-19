@@ -280,21 +280,9 @@ const EcommerceAddBlog = () => {
                         <p className="card-title-desc">Upload product image</p>
                         <Form className="dropzone">
                           <Dropzone
-                            maxSize={1048576} // 1MB
-                            maxFiles={5} // Maximum 5 files
-                            onDrop={(acceptedFiles) => {
-                              if (acceptedFiles.length > 5) {
-                                toast.error(
-                                  "You can upload a maximum of 5 files."
-                                );
-                              } else {
-                                dispatch(uploadImg(acceptedFiles));
-                              }
-                            }}
-                            accept={{
-                              "image/jpeg": [".jpeg", ".jpg"],
-                              "image/png": [".png"],
-                            }}
+                            onDrop={(acceptedFiles) =>
+                              dispatch(uploadImg(acceptedFiles))
+                            }
                           >
                             {({ getRootProps, getInputProps }) => (
                               <div>

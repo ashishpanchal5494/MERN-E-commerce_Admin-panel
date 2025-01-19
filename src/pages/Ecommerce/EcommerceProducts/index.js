@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Breadcrumbs from "../../../components/Common/Breadcrumb";
 import Nouislider from "nouislider-react";
 import "nouislider/distribute/nouislider.css";
@@ -33,10 +33,17 @@ const EcommerceProducts = () => {
   const [isFilterProductRatingOpen, setIsFilterProductRatingOpen] =
     useState(false);
   const [searchInput, setSearchInput] = useState(""); // Search input state
+  const [activeTab, setActiveTab] = useState(null);
 
   const handleSearchChange = (e) => {
     setSearchInput(e.target.value);
   };
+
+  const tabs = [
+    { id: "special", label: "Special" },
+    { id: "popular", label: "Popular" },
+    { id: "featured", label: "Featured" },
+  ];
 
   const discountData = [
     { value: "10%", label: "10% or more" },
@@ -84,7 +91,6 @@ const EcommerceProducts = () => {
   const onUncheckMark = (rating) => {
     console.log(`Rating unchecked: ${rating}`);
   };
-  const Navigate = useNavigate();
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -157,19 +163,19 @@ const EcommerceProducts = () => {
                           <li>
                             <Link to="#">
                               <i className="mdi mdi-circle-medium me-1"></i>{" "}
-                              Mobile
+                              Smart Phones
                             </Link>
                           </li>
                           <li>
                             <Link to="#">
                               <i className="mdi mdi-circle-medium me-1"></i>{" "}
-                              Mobile accessories
+                              Computer accessories
                             </Link>
                           </li>
                           <li>
                             <Link to="#">
                               <i className="mdi mdi-circle-medium me-1"></i>{" "}
-                              Computers
+                              MacBook
                             </Link>
                           </li>
                           <li>
@@ -595,15 +601,15 @@ const EcommerceProducts = () => {
                 <Row>
                   <Col md="6">
                     <div>
-                      <h5>Clothes & Accessories</h5>
+                      <h5>Electronics & Accessories</h5>
                       <ol className="breadcrumb p-0 bg-transparent mb-2">
                         <li className="breadcrumb-item">
-                          <Link to="#">Fashion</Link>
+                          <Link to="#">Speaker</Link>
                         </li>
                         <li className="breadcrumb-item">
-                          <Link to="#">Clothing</Link>
+                          <Link to="#">TV</Link>
                         </li>
-                        <li className="breadcrumb-item active">T-shirts</li>
+                        <li className="breadcrumb-item active">Tab</li>
                       </ol>
                     </div>
                   </Col>
@@ -626,84 +632,156 @@ const EcommerceProducts = () => {
                   </Col>
                 </Row>
 
-                <ul className="list-inline my-3 ecommerce-sortby-list">
+                <ul className="list-inline my-3 ecommerce-sortby-list mb-5">
                   <li className="list-inline-item">
                     <span className="fw-medium font-family-secondary">
                       Sort by:
                     </span>
                   </li>{" "}
-                  <li className="list-inline-item active">
-                    <Link to="#"> Popularity</Link>
+                  <li
+                    className={`list-inline-item ${
+                      activeTab === null ? "active" : ""
+                    }`}
+                  >
+                    <Link onClick={() => setActiveTab(null)}> All</Link>
                   </li>{" "}
-                  <li className="list-inline-item">
-                    <Link to="#">Newest</Link>
-                  </li>{" "}
-                  <li className="list-inline-item">
-                    <Link to="#">Discount</Link>
-                  </li>
+                  {tabs.map((tab) => (
+                    <li
+                      key={tab.id}
+                      className={`list-inline-item ${
+                        activeTab === tab.id ? "active" : ""
+                      }`}
+                    >
+                      <Link onClick={() => setActiveTab(tab.id)}>
+                        {" "}
+                        {tab.label}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
 
                 <Row className="g-0">
-                  {displayedProducts.map((product, key) => (
-                    <Col xl="4" sm="6" key={"_col_" + key}>
-                      <div
-                        style={{ height: "343px" }}
-                        className="product-box"
-                        onClick={() =>
-                          Navigate(`/ecommerce-product-detail/${product._id}`)
-                        }
-                      >
-                        <div className="product-img">
-                          {product.isLabel ? (
-                            <div className="product-ribbon badge bg-warning">
-                              {product.label}
-                            </div>
-                          ) : null}
-                          {product.isOffer ? (
-                            <div className="product-ribbon badge bg-primary">
-                              {`- ${product.offer} %`}
-                            </div>
-                          ) : null}
-                          <div className="product-like">
-                            <Link to="#">
-                              <i
-                                className={
-                                  product.isLike
-                                    ? "mdi mdi-heart text-danger"
-                                    : "mdi mdi-heart-outline"
-                                }
-                              ></i>
-                            </Link>
-                          </div>
-                          <img
-                            src={product.images[0]?.url}
-                            alt=""
-                            className="img-fluid mx-auto d-block"
-                          />
-                        </div>
-
-                        <div className="text-center">
-                          <p className="font-size-12 mb-1">
-                            {product.extraDetails}
-                          </p>
-                          <h5 className="font-size-15">
+                  {activeTab
+                    ? displayedProducts
+                        ?.filter((product) => product.tags === activeTab)
+                        ?.map((product, key) => (
+                          <Col xl="4" sm="6" key={"_col_" + key}>
                             <Link
-                              to={`/ecommerce-product-detail/${product.id}`}
-                              className="text-dark"
+                              to={`/ecommerce-products/${product._id}`}
+                              style={{ height: "343px", cursor: "pointer" }}
+                              className="product-box"
                             >
-                              {product.title.split(",").slice(0, 2).join(",")}
+                              <div className="product-img">
+                                {product.isLabel ? (
+                                  <div className="product-ribbon badge bg-warning">
+                                    {product.label}
+                                  </div>
+                                ) : null}
+                                {product.isOffer ? (
+                                  <div className="product-ribbon badge bg-primary">
+                                    {`- ${product.offer} %`}
+                                  </div>
+                                ) : null}
+                                <div className="product-like">
+                                  <Link to="#">
+                                    <i
+                                      className={
+                                        product.isLike
+                                          ? "mdi mdi-heart text-danger"
+                                          : "mdi mdi-heart-outline"
+                                      }
+                                    ></i>
+                                  </Link>
+                                </div>
+                                <img
+                                  src={product.images[0]?.url}
+                                  alt=""
+                                  className="img-fluid mx-auto d-block"
+                                />
+                              </div>
+
+                              <div className="text-center">
+                                <p className="font-size-12 mb-1">
+                                  {product.extraDetails}
+                                </p>
+                                <h5 className="font-size-15">
+                                  <div className="text-dark">
+                                    {product.title
+                                      .split(" ")
+                                      .slice(0, 10)
+                                      .join(" ")}
+                                    ...
+                                  </div>
+                                </h5>
+                                <h5 className="mt-3 mb-0">
+                                  <span className="text-muted me-2">
+                                    <del>{product.oldPrice}</del>
+                                  </span>
+                                  ₹{product.price}
+                                </h5>
+                              </div>
                             </Link>
-                          </h5>
-                          <h5 className="mt-3 mb-0">
-                            <span className="text-muted me-2">
-                              <del>{product.oldPrice}</del>
-                            </span>
-                            ₹{product.price}
-                          </h5>
-                        </div>
-                      </div>
-                    </Col>
-                  ))}
+                          </Col>
+                        ))
+                    : displayedProducts?.map((product, key) => (
+                        <Col xl="4" sm="6" key={"_col_" + key}>
+                          <Link
+                            to={`/ecommerce-products/${product._id}`}
+                            style={{ height: "343px", cursor: "pointer" }}
+                            className="product-box"
+                          >
+                            <div className="product-img">
+                              {product.isLabel ? (
+                                <div className="product-ribbon badge bg-warning">
+                                  {product.label}
+                                </div>
+                              ) : null}
+                              {product.isOffer ? (
+                                <div className="product-ribbon badge bg-primary">
+                                  {`- ${product.offer} %`}
+                                </div>
+                              ) : null}
+                              <div className="product-like">
+                                <Link to="#">
+                                  <i
+                                    className={
+                                      product.isLike
+                                        ? "mdi mdi-heart text-danger"
+                                        : "mdi mdi-heart-outline"
+                                    }
+                                  ></i>
+                                </Link>
+                              </div>
+                              <img
+                                src={product.images[0]?.url}
+                                alt=""
+                                className="img-fluid mx-auto d-block"
+                              />
+                            </div>
+
+                            <div className="text-center">
+                              <p className="font-size-12 mb-1">
+                                {product.extraDetails}
+                              </p>
+                              <h5 className="font-size-15">
+                                <div>
+                                  {product.title
+                                    .split(" ")
+                                    .slice(0, 10)
+                                    .join(" ")}
+                                  ...
+                                </div>
+                              </h5>
+                              <h5 className="mt-3 mb-0">
+                                <span className="text-muted me-2">
+                                  <del>{product.oldPrice}</del>
+                                </span>
+                                ₹{product.price}
+                              </h5>
+                            </div>
+                          </Link>
+                        </Col>
+                      ))}
                 </Row>
 
                 <Row className="mt-4">

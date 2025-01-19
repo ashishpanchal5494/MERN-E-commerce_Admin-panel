@@ -42,7 +42,7 @@ const authProtectedRoutes = [
 
   { path: "/ecommerce-products", component: <EcommerceProducts /> },
   {
-    path: "/ecommerce-product-detail/:id",
+    path: "/ecommerce-products/:id",
     component: <EcommerceProductDetail />,
   },
   { path: "/ecommerce-orders", component: <EcommerceOrders /> },

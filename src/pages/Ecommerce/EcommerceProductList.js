@@ -122,7 +122,7 @@ const EcommerceProductList = () => {
     });
   });
 
-  console.log(data1);
+  console.log(data1.color);
 
   const deleteProduct = (e) => {
     dispatch(deleteAProducts(e));

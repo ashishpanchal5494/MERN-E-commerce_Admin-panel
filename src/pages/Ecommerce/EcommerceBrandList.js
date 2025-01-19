@@ -55,6 +55,7 @@ const EcommerceBrandList = () => {
     dispatch(resetState());
     dispatch(getBrands());
   }, [dispatch]);
+
   const brandState = useSelector((state) => state.brand.brands);
   const data1 = [];
   for (let i = 0; i < brandState.length; i++) {

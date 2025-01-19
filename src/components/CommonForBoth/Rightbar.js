@@ -19,6 +19,7 @@ import SimpleBar from "simplebar-react";
 import { Link } from "react-router-dom";
 
 import "./rightbar.scss";
+import withRouter from "../Common/withRouter";
 //Import images
 
 class RightSidebar extends Component {
@@ -52,10 +53,11 @@ class RightSidebar extends Component {
 
       // Navigate to dashboard if the layout is "horizontal"
       if (e.target.value === "horizontal") {
-        this.props.history.push("/dashboard"); // Adjust the route as needed
+        this.props.router.navigate("/dashboard"); // Use navigate from your withRouter
       }
     }
   }
+
   hideRightbar(e) {
     e.preventDefault();
     this.props.hideRightSidebar();
@@ -81,7 +83,6 @@ class RightSidebar extends Component {
    * Change the layout
    * @param {*} e
    */
- 
 
   /**
    * Changes layout width
@@ -367,4 +368,4 @@ export default connect(mapStatetoProps, {
   changeTopbarTheme,
   changeLayoutTheme,
   changePreloader,
-})(RightSidebar);
+})(withRouter(RightSidebar));
