@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Card,
   CardBody,
@@ -51,6 +51,7 @@ const EcommerceAddProduct = () => {
   const dispatch = useDispatch();
   const [color, setColor] = useState([]);
   const [activeTab, setActiveTab] = useState(1);
+  const navigate = useNavigate();
 
   // Fetch data on component mount
   useEffect(() => {
@@ -69,11 +70,12 @@ const EcommerceAddProduct = () => {
   useEffect(() => {
     if (isSuccess && createdProduct) {
       toast.success("Product Added Successfully!");
+      navigate("/ecommerce-products");
     }
     if (isError) {
       toast.error("Something Went Wrong!");
     }
-  }, [isSuccess, isError, isLoading, createdProduct]);
+  }, [isSuccess, isError, isLoading, createdProduct, navigate]);
 
   // Mapping colors for the select component
   const colorOptions = colorState.map((i) => ({
@@ -102,7 +104,7 @@ const EcommerceAddProduct = () => {
     validationSchema: schema,
     onSubmit: (values) => {
       dispatch(createProducts(values));
-      window.location.reload();
+
       formik.resetForm();
       setColor([]);
       dispatch(delImg());

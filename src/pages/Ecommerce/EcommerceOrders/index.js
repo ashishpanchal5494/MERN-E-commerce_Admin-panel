@@ -30,9 +30,7 @@ const EcommerceOrders = () => {
         date: new Date(order.createdAt).toLocaleString(),
         product: order.orderItems?.map((item, idx) => (
           <div key={idx}>
-            <Link to={`/ecommerce-product-detail/${item.product}`}>
-              View Product
-            </Link>
+            <Link to={`/ecommerce-products/${item.product}`}>View Product</Link>
           </div>
         )),
         billingName: `${order.user?.firstname || ""} ${
