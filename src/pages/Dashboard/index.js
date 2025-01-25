@@ -27,14 +27,14 @@ class Dashboard extends Component {
         {
           icon: "ri-store-2-line",
           title: "Sales Revenue",
-          value: "$ 38452",
+          value: "₹ 38452",
           rate: "2.4%",
           desc: "From previous period",
         },
         {
           icon: "ri-briefcase-4-line",
           title: "Average Price",
-          value: "$ 15.4",
+          value: "₹ 15.4",
           rate: "2.4%",
           desc: "From previous period",
         },
